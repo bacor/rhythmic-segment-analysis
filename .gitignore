@@ -1,0 +1,21 @@
+# Build artifacts
+tex/out/
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+
+# Python caches & environments
+__pycache__/
+*.py[cod]
+.venv/
+.DS_Store
+
+# Editor settings
+.vscode/
+
+# Generated data/figures
+# data/
+# figures/
+tmp

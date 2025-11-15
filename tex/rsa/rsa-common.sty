@@ -1,0 +1,70 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{rsa-common}[2025/11/12 Shared RSA helpers]
+
+% rsa-common.sty — Shared RSA drawing helpers for TikZ figures.
+% Author: Bas (documentation auto-generated via Codex; regenerate after edits).
+
+\RequirePackage{tikz}
+\RequirePackage{xparse}
+\usetikzlibrary{calc}
+
+% Always use sans fonts
+\RequirePackage{helvet}
+\RequirePackage{sansmath}
+\sansmath
+\renewcommand{\familydefault}{\sfdefault}
+
+% \definecolor{simplexColor}{RGB}{200,100,50}
+\definecolor{simplexColor}{RGB}{150,150,150}
+
+
+%--------------------------------------------------------------
+% \round{<value>}
+%
+% Prints <value> using pgf’s fixed number formatter with two
+% decimal places. Helpful for axis tick labels and callouts.
+%--------------------------------------------------------------
+\NewDocumentCommand{\round}{ m }{%
+    \begingroup
+    \pgfkeys{/pgf/number format/.cd,fixed,precision=2,assume math mode=false}%
+    \pgfmathprintnumber{#1}%
+    \endgroup
+}
+
+
+%--------------------------------------------------------------
+% \showSegment[<node options>]{<name>}
+%
+% Draws a filled black circle at coordinate <name> and places the
+% uppercase identifier inside. Optional TikZ node options allow
+% custom styling while defaulting to a compact disc marker.
+%--------------------------------------------------------------
+\NewDocumentCommand{\showSegment}{ O{circle, white, fill=black, inner sep=.15em} m }{%
+    \node[#1] at (#2) {#2};
+}
+
+
+%--------------------------------------------------------------
+% \showPattern[<node options>]{<name>}
+%
+% Renders the projected simplex point <name>p as a lowercase
+% label inside a simplex-colored marker. Optional argument lets
+% callers override the node styling for emphasis.
+%--------------------------------------------------------------
+\NewDocumentCommand{\showPattern}{ O{circle, white, fill=simplexColor, inner sep=.15em} m}{%
+    \node[#1] at (#2p) {\lowercase{#2}};
+}
+
+
+%--------------------------------------------------------------
+% \labelPattern[<node options>]{<name>}{<text>}
+%
+% Places <text> next to the projected coordinate <name>p using
+% the supplied node options (defaults to a right-aligned label).
+%--------------------------------------------------------------
+\NewDocumentCommand{\labelPattern}{ O{anchor=east, left=.75em} m m }{%
+    \node[#1] at (#2p) {#3};
+}
+
+
+\endinput

@@ -1,0 +1,53 @@
+\documentclass[tikz,border=6pt]{standalone}
+
+\usepackage{rsa/rsa-3d}
+\definecolor{muted}{RGB}{150,150,150}
+
+\begin{document}
+\tdplotsetmaincoords{75}{75} % view angles (elev, azim)
+\begin{tikzpicture}[tdplot_main_coords, line cap=round, scale=8]
+
+    % Set up drawing
+    \showAxes{1.3}{1.3}{1.25}
+    \showAxesTicks{.5}
+    \showSimplex[simplexColor]{.25}
+
+    % Point A
+    \defineSegment{A}{0.6}{0.6}{1.2}
+    \showSimplexProjection{A}
+    \traceSegmentCoords{A}
+    \tracePatternCoords{A}
+    \labelPattern[anchor=east, left=.5em]{A}{$1:1:2$}
+
+    % Point B
+    \defineSegment{B}{0.8}{0.8}{0.4}
+    \showSimplexProjection{B}
+    \labelPattern{B}{$2:2:1$}
+    % \tracePatternCoords{B}
+    \traceSegmentCoords{B}
+
+    \begin{pgfonlayer}{simplex}
+        \defineSegment{I}{1}{1}{1}
+        \node[circle, fill=white, inner sep=1pt] at (Ip) {};
+        \labelPattern[anchor=west, white, fill=simplexColor!45, right=.25em, font=\small]{I}{$1:1:1$}
+    \end{pgfonlayer}
+
+    % Draw axes labels around simplex
+    \begin{pgfonlayer}{simplex}
+        \labelSimplexSide[below=2.5em, anchor=north, xshift=1em]{E2}{E1}{$\leftarrow$ interval 1}
+        \labelSimplexSide[above=2em, anchor=south west]{E3}{E2}{interval 2 $\rightarrow$}
+        \labelSimplexSide[below=3em, anchor=north]{E1}{E3}{$\leftarrow$ interval 3}
+    \end{pgfonlayer}
+
+    % Distances
+    \defineSegment{M1}{.4}{.25}{.35}
+    \draw [|-|, shorten <=.75em, shorten >=.75em, opacity=.4] (Bp) -- (M1p) -- (Ap);
+    \coordinate (C1) at (.8, 0.8, 1.2);
+    \coordinate (C2) at (0.8, 0.6, 1.2);
+    \draw [|-|, shorten <=.75em, shorten >=.75em, opacity=.4] (B) -- (C1) -- (C2) -- (A);
+
+    \node[rotate=-90, font=\scriptsize, opacity=.4, anchor=south] at (0.8, 0.8, 0.9) {1.2};
+    \node[rotate=-60, font=\scriptsize, opacity=.4, anchor=north] at (0.4, 0.25, 0.35) {0.3};
+
+\end{tikzpicture}
+\end{document}

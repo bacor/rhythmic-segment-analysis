@@ -1,0 +1,264 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{rsa-3d}[2025/11/12 RSA drawings]
+
+% rsa-3d.sty — TikZ helpers for 3D rhythmic segment analysis diagrams.
+% Author: Bas (documentation auto-generated via Codex; regenerate after edits).
+
+\RequirePackage{tikz-3dplot}
+\RequirePackage{rsa/rsa-common}
+
+% Layers
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{simplex}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,simplex,main,foreground}
+
+%--------------------------------------------------------------
+% \storecoords{<name>}{<x>}{<y>}{<z>}
+%
+% Saves numeric components for coordinate <name> into macros
+% <name>x, <name>y, and <name>z for later reuse.
+%--------------------------------------------------------------
+\newcommand{\storecoords}[4]{%
+  \expandafter\xdef\csname #1x\endcsname{#2}%
+  \expandafter\xdef\csname #1y\endcsname{#3}%
+  \expandafter\xdef\csname #1z\endcsname{#4}%
+}
+
+%--------------------------------------------------------------
+% \X{<name>} \Y{<name>} \Z{<name>}
+%
+% Shorthand accessors that expand to the stored x/y/z values of
+% the coordinate <name>.
+%--------------------------------------------------------------
+\newcommand{\X}[1]{\csname #1x\endcsname}
+\newcommand{\Y}[1]{\csname #1y\endcsname}
+\newcommand{\Z}[1]{\csname #1z\endcsname}
+
+%--------------------------------------------------------------
+% \defineSegment{<name>}{<x>}{<y>}{<z>}
+%
+% Creates raw coordinate <name> = (#2,#3,#4) and projected
+% simplex coordinate <name>p normalized so components sum to 1.
+% Coordinates are stored via \storecoords for later reuse.
+%--------------------------------------------------------------
+\newcommand{\defineSegment}[4]{%
+  \pgfmathsetmacro{\Sum}{#2+#3+#4}%
+  \pgfmathsetmacro{\Px}{#2/\Sum}%
+  \pgfmathsetmacro{\Py}{#3/\Sum}%
+  \pgfmathsetmacro{\Pz}{#4/\Sum}%
+  \coordinate (#1) at (#2, #3, #4);%
+  \storecoords{#1}{#2}{#3}{#4};%
+  \coordinate (#1p) at (\Px, \Py, \Pz);%
+  \storecoords{#1p}{\Px}{\Py}{\Pz};%
+}
+
+%--------------------------------------------------------------
+% \printCoords{<name>}
+%
+% Expands to "(x,y,z)" for the stored values of <name>.
+%--------------------------------------------------------------
+\NewDocumentCommand{\printCoords}{ m }{%
+  (\round{\X{#1}}, \round{\Y{#1}}, \round{\Z{#1}})%
+}
+%--------------------------------------------------------------
+% \labelSegment[<node options>]{<name>}{<text>}
+%
+% Places a label next to the raw 3D coordinate <name>.
+%--------------------------------------------------------------
+\NewDocumentCommand{\labelSegment}{ O{anchor=west, xshift=.5em} m m}{%
+  \node[#1] at (#2) {#3};
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%--------------------------------------------------------------
+% \showSimplex[<color>]{<grid step>}
+%
+% Convenience macro to draw the simplex surface, grid and tick
+% marks using consistent styling.
+%--------------------------------------------------------------
+\NewDocumentCommand{\showSimplex}{ O{simplexColor} m }{
+    \showSimplexSurface[#1]{}
+    \showSimplexGrid{#2}
+    \showSimplexTicks[0.02][#1][#1, font=\small]{#2}
+}
+
+%--------------------------------------------------------------
+% \showSimplexSurface[<color>][<opacity>]
+%
+% Draws the triangular simplex face and vertices within the
+% dedicated layer so that overlays stay readable.
+%--------------------------------------------------------------
+\NewDocumentCommand{\showSimplexSurface}{ O{simplexColor} O{0.9}}{
+    \coordinate (E1) at (1,0,0);
+    \coordinate (E2) at (0,1,0);
+    \coordinate (E3) at (0,0,1);
+    \begin{pgfonlayer}{simplex}
+        \foreach \v in {E1,E2,E3} \fill[#1] (\v) circle (.25pt);
+        \fill[#1!50, draw=#1, opacity=#2] (E1) -- (E2) -- (E3) -- cycle;
+    \end{pgfonlayer}
+}
+
+%--------------------------------------------------------------
+% \showSimplexGrid[<style>]{<step>}
+%
+% Draws a barycentric grid with spacing <step> inside the
+% simplex layer, using optional TikZ style for the lines.
+%--------------------------------------------------------------
+\newcommand{\showSimplexGrid}[2][densely dotted, white]{%
+    \pgfmathtruncatemacro{\N}{round(1/#2)}%
+    \pgfmathtruncatemacro{\NmOne}{\N-1}%
+    \begin{pgfonlayer}{simplex}%
+    \begin{scope}[#1]
+        \foreach \i in {1,...,\NmOne}{%
+            \pgfmathsetmacro{\s}{\i*#2}%
+            \draw (\s,0,1-\s) -- (\s,1-\s,0); % x const
+            \draw (\s,1-\s,0) -- (0,1-\s,\s); % y const
+            \draw (\s,0,1-\s) -- (0,\s,1-\s); % z const
+    }%
+    \end{scope}%
+    \end{pgfonlayer}%
+}
+
+%--------------------------------------------------------------
+% \showSimplexTicks[<tick len>][<tick style>][<text style>]{<step>}
+%
+% Adds small ticks and numeric labels on each edge of the simplex
+% at multiples of <step>.
+%--------------------------------------------------------------
+\NewDocumentCommand{\showSimplexTicks}{ O{0.02} O{simplexColor} O{simplexColor, font=\small} m }{
+    % #1 tick length #2 tick style #3 text style #4 step size
+    \pgfmathsetmacro{\t}{#1}%
+    \pgfmathsetmacro{\step}{#4}%
+    \pgfmathsetmacro{\N}{round(1/\step)}%
+    \pgfmathsetmacro{\NmOne}{\N-1}%
+    \begin{pgfonlayer}{simplex}%
+        \foreach \i in {1,...,\NmOne}{%
+          \pgfmathsetmacro{\s}{\i*\step}%
+          \begin{scope}[#2]
+            \draw (\s,1-\s,0) -- ++(\t, \t, -\t); % Const x
+            \draw (0, \s, 1-\s) -- ++(-\t, 0, \t); % Const y
+            \draw (\s,0,1-\s) -- ++(\t, -\t, 0); % Const z
+          \end{scope}
+          \begin{scope}[#3]
+            \node at ($(\s,1-\s,0) + (\t*2, \t*2, -2*\t)$){\s};
+            \node at ($(0,\s,1-\s) + (-\t*2, 0,\t*2)$){\s};
+            \node[fill=white, inner sep=1pt] at ($(1-\s,0,\s) + (2*\t, -4*\t, 0)$){\s};
+          \end{scope}
+        }%
+    \end{pgfonlayer}
+}
+
+%--------------------------------------------------------------
+% \labelSimplexSide[<pos opts>][<text opts>]{<start>}{<end>}{<label>}
+%
+% Places text along the simplex edge spanning coordinates #3-#4.
+% The first optional argument adjusts where the label sits relative
+% to the edge; the second changes the styling of the text node.
+%--------------------------------------------------------------
+\NewDocumentCommand{\labelSimplexSide}{ O{below=2em, anchor=north, xshift=1em} O{simplexColor, font=\small, pos=0.5, sloped, fill=white, inner sep=2pt} m m m }{%
+    \path (#3) -- node[#1, #2]{#5} (#4);
+}
+
+
+%--------------------------------------------------------------
+% \showAxes[<text style>]{<x len>}{<y len>}{<z len>}
+%
+% Draws three interval axes from the origin with labeled ends.
+%--------------------------------------------------------------
+\NewDocumentCommand{\showAxes}{O{font=\small} m m m}{
+    \coordinate (O) at (0,0,0);
+    \begin{pgfonlayer}{background}
+        \draw[->] (O) -- (#2,0,0) 
+            node[below, #1] {Interval 1};
+        \draw[->] (O) -- (0,#3,0) 
+            node[below, anchor=north east, yshift=-.25em, #1] {Interval 2};
+        \draw[->] (O) -- (0,0,#4) 
+            node[left, anchor=south east, rotate=90, #1] {Interval 3};
+    \end{pgfonlayer}
+}
+
+%--------------------------------------------------------------
+% \showAxesTicks[<tick len>][<tick style>][<text style>]{<step>}
+%
+% Adds evenly spaced ticks on all three axes plus numeric labels
+% on the x and z axes every other tick.
+%--------------------------------------------------------------
+\NewDocumentCommand{\showAxesTicks}{O{0.03} O{opacity=.4} O{font=\scriptsize, opacity=.4} m}{
+    \pgfmathsetmacro{\tickSize}{#1}%
+    \pgfmathsetmacro{\step}{#4}%
+    \pgfmathsetmacro{\stepTwo}{2*\step}%
+    \begin{pgfonlayer}{background} 
+        \begin{scope}[#2]
+            \foreach \t in {0,\step,...,1}{
+                \draw (\t, -\tickSize, 0) -- (\t, 0, 0);
+                \draw (-\tickSize, \t, 0) -- (0, \t, 0);
+                \draw (0, -\tickSize, \t) -- (0, 0, \t);
+            }
+        \end{scope}
+        \begin{scope}[anchor=east, #3]
+            \foreach \t in {\step,\stepTwo,...,1}{
+                \node at (\t, -\tickSize, 0) {\t};
+                \node at (0, -\tickSize, \t) {\t};
+            }
+            \node at (0, -\tickSize, 0) {0};
+        \end{scope}
+    \end{pgfonlayer}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%--------------------------------------------------------------
+% \traceSegmentCoords[<line style>]{<name>}
+%
+% Projects the raw coordinate <name> to the coordinate planes to
+% help visualize its x/y/z components.
+%--------------------------------------------------------------
+\NewDocumentCommand{\traceSegmentCoords}{O{dotted, opacity=.5} m}{
+    \coordinate (M) at (0,\Y{#2},\Z{#2});
+    \begin{pgfonlayer}{background}
+        \draw[#1] (#2) -- (M) -- (0,\Y{#2}, 0);
+        \draw[#1] (0,0,\Z{#2}) -- (M);
+    \end{pgfonlayer}
+}
+
+
+%--------------------------------------------------------------
+% \tracePatternCoords[<line style>]{<name>}
+%
+% Draws helper lines from the projected simplex point <name>p to
+% the edges of the simplex so barycentric proportions are visible.
+%--------------------------------------------------------------
+\NewDocumentCommand{\tracePatternCoords}{O{white, thick} m}{
+    \pgfmathsetmacro{\ax}{\X{#2p}}%
+    \pgfmathsetmacro{\by}{\Y{#2p}}%
+    \pgfmathsetmacro{\cz}{\Z{#2p}}%
+    \begin{pgfonlayer}{simplex}
+        \draw[#1] (\ax, 1-\ax, 0) -- (#2p);   % x const
+        \draw[#1] (#2p) -- (0,\by,1-\by);   % y const
+        \draw[#1] (1-\cz,0,\cz) -- (#2p);   % z const
+    \end{pgfonlayer}
+}
+
+
+%--------------------------------------------------------------
+% \showSimplexProjection{<name>}
+%
+% Full depiction of a segment projection: coordinate label, arrow
+% from point to simplex, dotted drop to origin, and both markers.
+%--------------------------------------------------------------
+\newcommand{\showSimplexProjection}[1]{%
+    \labelSegment{#1}{\printCoords{#1}}
+    \draw[<-, thick, shorten <=7pt, shorten >=5pt] (#1p) -- (#1);
+    \begin{pgfonlayer}{background}
+        \draw[dotted] (#1p) -- (0, 0);
+    \end{pgfonlayer}
+    \showSegment{#1}
+    \showPattern{#1}
+}
+
+
+\endinput

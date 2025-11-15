@@ -1,0 +1,194 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{rsa-2d}[2025/11/12 2D RSA drawings]
+
+% rsa-2d.sty — TikZ helpers for 2D rhythmic segment analysis diagrams.
+% Author: Bas (documentation auto-generated via Codex; regenerate after edits).
+
+\RequirePackage{rsa/rsa-common}
+
+
+%--------------------------------------------------------------
+% \storecoords{<name>}
+%
+% Persists the numeric x/y components of the coordinate named
+% <name> into macro registers <name>x and <name>y. Subsequent
+% macros can fetch the values without re-evaluating TikZ math.
+%
+% Arguments:
+%   #1 : Coordinate name (without parentheses) to store.
+%--------------------------------------------------------------
+\newcommand{\storecoords}[1]{%
+  \path let \p1 = (#1) in \pgfextra{%
+    \pgfmathsetmacro{\ux}{\x1/1cm}%
+    \pgfmathsetmacro{\uy}{\y1/1cm}%
+    \expandafter\xdef\csname #1x\endcsname{\ux}%
+    \expandafter\xdef\csname #1y\endcsname{\uy}%
+  }%
+}
+
+
+%--------------------------------------------------------------
+% \defineSegment{<name>}{<x>}{<y>}
+%
+% Defines two coordinates:
+%   <name>  — the raw point at (#2, #3)
+%   <name>p — the normalized projection of (#2, #3) onto the line x+y=1
+%
+% Arguments:
+%   #1 : Base name for the coordinates (creates <name> and <name>p)
+%   #2 : First coordinate or component (x)
+%   #3 : Second coordinate or component (y)
+%
+% Example:
+%   \defineSegment{A}{2}{1}
+%     → defines A=(2,1) and Ap=(0.67,0.33)
+%--------------------------------------------------------------
+\newcommand{\defineSegment}[3]{%
+  \pgfmathsetmacro{\sum}{#2+#3}%
+  \coordinate (#1) at (#2, #3);%
+  \storecoords{#1};%
+  \coordinate (#1p) at ({#2/\sum},{#3/\sum});%
+  \storecoords{#1p};%
+}
+
+
+%--------------------------------------------------------------
+% \printcoord{<name>}
+%
+% Expands to "(x,y)" using the stored numeric values previously
+% captured via \storecoords. Useful inside nodes.
+%--------------------------------------------------------------
+\NewDocumentCommand{\printcoord}{ m }{%
+  (\round{\csname #1x\endcsname},\;\round{\csname #1y\endcsname})%
+}
+
+
+% \showSegmentLabel[<node options>]{<name>}
+%--------------------------------------------------------------
+% \showCoordinates[<node options>]{<name>}
+%
+% Places a text node near <name> showing "(x,y)" for the raw
+% coordinate. The optional argument customizes TikZ node options.
+%--------------------------------------------------------------
+\NewDocumentCommand{\showCoordinates}{ O{anchor=east, xshift=-.75em} m }{%
+  \filldraw[black] (#2) node[#1]{\printcoord{#2}};
+}
+
+
+%--------------------------------------------------------------
+% \showSimplexProjection{<name>}
+%
+% Visual bundle that draws the projection of the raw coordinate
+% to the simplex: coordinates label, arrow, dotted line to origin,
+% and both segment/pattern markers.
+%--------------------------------------------------------------
+\newcommand{\showSimplexProjection}[1]{%
+    \showCoordinates{#1}
+    \draw[<-, thick, shorten <=7pt, shorten >=5pt] (#1p) -- (#1);
+    \draw[dotted] (#1p) -- (0, 0);
+    \showSegment{#1}
+    \showPattern{#1}
+}
+
+
+%--------------------------------------------------------------
+% \drawAxes[<text style>][<line style>]{<length>}
+%
+% Draws two interval axes of length <length> with customizable
+% node styling and stroke appearance. Ticks are added at 0, 0.5,
+% and 1 for both axes.
+%--------------------------------------------------------------
+\NewDocumentCommand{\drawAxes}{ O{font=\small} O{-} m }{%
+    \draw[#2] (0,0) -- (#3,0);
+    \draw[#2] (0,0) -- (0,#3);
+    \node[anchor=south east, rotate=90, yshift=.4em, #1] at (0, #3) {Interval 2};
+    \node[anchor=north east, yshift=-.4em, #1] at (#3, 0) {Interval 1};
+
+    % Ticks and labels
+    \foreach \t in {0,0.5,1}{
+        \draw[#2] (\t, -0.03) -- (\t, 0);
+        \draw[#2] (-0.03, \t) -- (0, \t);
+        \node[anchor=north, yshift=-.4em, #1] at (\t, 0) {\t};
+        \node[anchor=east, xshift=-.4em, #1] at (0, \t) {\t};
+    }
+}
+
+
+% perpendicular direction to diagonal (~(1,1)/√2)
+\pgfmathsetmacro{\offx}{0.02/sqrt(2)}%
+\pgfmathsetmacro{\offy}{0.02/sqrt(2)}%
+
+
+%--------------------------------------------------------------
+% \simplexTickLabel[<text color>]{<t>}{<text>}
+%
+% Helper that places a rotated tick label along the diagonal
+% simplex line for position <t>. Optional argument sets text color.
+%--------------------------------------------------------------
+\NewDocumentCommand{\simplexTickLabel}{ O{simplexColor} m m }{%
+    \coordinate (T) at (#2, 1-#2);
+    \node[rotate=-45,anchor=south,font=\small,text=#1]
+        at ($(T)+(1.5*\offx,1.5*\offy)$) {#3};
+}
+
+
+%--------------------------------------------------------------
+% \drawSimplex[<style>]
+%
+% Renders the 1-simplex: diagonal bar with highlighted endpoints,
+% ticks every 0.1 units, and canonical labels at 0, 0.5, 1. The
+% optional argument controls the drawing color/style.
+%--------------------------------------------------------------
+\NewDocumentCommand{\drawSimplex}{ O{simplexColor} }{%
+    \coordinate (C1) at (1,0);
+    \coordinate (C2) at (0,1);
+    \draw[#1, line width=10pt, opacity=.2, cap=round] (C1) -- (C2);
+    \draw[#1, line width=1.5pt] (C1) -- (C2);
+    \fill[#1] (C1) circle (0.5pt) node[below=5];
+    \fill[#1] (C2) circle (0.5pt) node[left=5];
+
+    % ticks and labels along diagonal
+    \foreach \t in {0,0.1,...,1}{
+        \coordinate (T) at (\t,1-\t);
+        \draw[#1] ($(T)+(\offx,\offy)$) -- ($(T)+(-\offx,-\offy)$);
+    }
+
+    \simplexTickLabel[#1]{0}{0}
+    \simplexTickLabel[#1]{0.5}{0.5}
+    \simplexTickLabel[#1]{1}{1}
+}
+
+
+%--------------------------------------------------------------
+% \showSegmentDistance[<style>]{<A>}{<B>}{<label>}
+%
+% Draws an orthogonal distance indicator connecting segment
+% coordinates <A> and <B>, annotating it with <label>. Optional
+% style controls the ruler stroke (defaults to light gray).
+%--------------------------------------------------------------
+\NewDocumentCommand{\showSegmentDistance}{ O{|-|, shorten >=.8em, shorten <=.8em, opacity=.4} m m m }{%
+    \draw[#1] 
+        (#2) -- (#2 |- #3) -- (#3) 
+        node[midway, above, font=\scriptsize]{#4};
+}
+
+
+%--------------------------------------------------------------
+% \showPatternDistance[<style>]{<A>}{<B>}{<offset-scale>}{<label>}
+%
+% Draws a dotted offset ruler along the simplex between projected
+% points <A>p and <B>p. The offset scaling (#4) keeps the ruler
+% from overlapping the main diagonal; #5 annotates the length.
+%--------------------------------------------------------------
+\NewDocumentCommand{\showPatternDistance}{ O{opacity=.4} m m m m }{%
+    \coordinate (V) at ($(#2p)+(#4*\offx,#4*\offy)$);
+    \coordinate (W) at ($(#3p)+(#4*\offx,#4*\offy)$);
+    \draw [dotted, shorten >=.8em, #1] (V) -- (#2p);
+    \draw [dotted, shorten >=.8em, #1] (W) -- (#3p);
+    \draw [|-|, #1] 
+        (V) -- (W) 
+        node[midway, above, rotate=-45, font=\scriptsize]{#5};
+}
+
+
+\endinput

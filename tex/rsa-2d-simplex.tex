@@ -1,0 +1,19 @@
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{rsa/rsa-2d}
+
+\begin{document}
+\begin{tikzpicture}[scale=6]
+    \drawAxes{1.3}
+    \drawSimplex{simplexColor}
+
+    \defineSegment{A}{1.2}{0.8}
+    \defineSegment{B}{0.4}{1.2}
+    \showSimplexProjection{B}
+    \showSimplexProjection{A}
+    \labelPattern{A}{3:2}
+    \labelPattern{B}{1:3}
+
+    \showSegmentDistance{A}{B}{1.2}
+    \showPatternDistance{A}{B}{10}{0.35}
+\end{tikzpicture}
+\end{document}
