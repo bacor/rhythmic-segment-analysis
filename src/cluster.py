@@ -71,7 +71,8 @@ def cluster_transition_network(
         graph.add_edge(src, dst, count=count, weight=weight)
 
     for label in ignore:
-        graph.remove_node(label)
+        if label in graph:
+            graph.remove_node(label)
     return graph
 
 
