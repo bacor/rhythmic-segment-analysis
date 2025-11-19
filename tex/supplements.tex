@@ -50,10 +50,19 @@
 
 \tableofcontents
 
+\section{Backmatter}
+
+\subsection{Data and code}
+
+The Python package rhythmic-segments can be installed using pip, and documentation is available on bacor.github.io/rhythmic-segments. Data and code used for the examples in this paper is available online: \textbf{[will be deposited to Zotero upon acceptance]}. Note in particular that it contains a small LaTeX package used to produce figures 2 and 3.
+
+\subsection{Use of AI tools}
+
+OpenAI’s Codex model assisted the development some of the research code, but always instructed and supervised by the author: much of the Python package was for example written in collaboration with Codex, in particular the documentation and test suites. ChatGPT was used when brainstorming terminology and presentation of the ideas in this paper: the term ‘quantal’ was for example suggested by ChatGPT. The first draft of this paper was written solely by the author and is available upon request. Afterwards, spelling and grammar were corrected using feedback from a chatbot; editorial suggestions for improved fluency were also included.
 
 \section{Mathematical framework}
 
-This section develops the main concepts underlying Rhythmic Segment Analysis in a more formal fashion.
+This section develops the main concepts underlying rhythmic segment analysis in a more formal fashion.
 
 \subsection{Segments and patterns}
 
@@ -139,27 +148,6 @@ Conversely, if two pairs have the same duration $e$, but different patterns, the
 \end{align}
 The factor two compensates for the fact that the total variation distance is half the taxicab distance.
 
-
-
-
-% To summarize, we have two spaces:
-% \[
-% \begin{alignedat}{3}
-%     &\text{Segment space:}\quad
-%         &(\RR_{\ge 0}, \;d), \quad
-%         &d(\vx, \vy) = \|\vx -\vy\|_1 \\
-%     &\text{Pattern space:}\quad
-%         &(\Delta^{n-1}, \; \delta), \quad
-%         &\delta(\vr, \vs) = \tfrac{1}{2}\|\vr -\vs\|_1\\
-%     &\text{Duration space}:
-%         &(\RR_{\ge 0}, d)
-%         & \\
-%     &\text{Pattern-duration space:}\quad
-%         &((\Delta^{n-1}\times\RR, )
-%         &
-% \end{alignedat}
-% \]
-
 \subsection{Anisochrony and the nPVI}
 
 In this section we define a measure of \emph{anisochrony} and show how it relates to the normalized pairwise variability index (nPVI).
@@ -238,12 +226,45 @@ The previous result almost immediately shows that the nPVI is proportional to th
 
 \newpage
 
-\section{Plot types}
+\section{Visualization}
+
+The main text compares visualizations of three types of synthetic rhythmic data. These supplements include some additional plots for three more synthetic datasets.
+Interval distributions of all datasets are shown in figure \ref{fig:interval-distributions}.
+
+\begin{itemize}
+  \item \textbf{Uniform quantal}. Integers $k$ were sampled uniformly between 1 and 11. Gaussian noise $\epsilon \sim \text{Normal}(0, 0.1)$ was added, and the result scaled by a quantum of $0.2$ to get intervals $i = 0.2 (k + \epsilon)$.
+  \item \textbf{Geometric quantal}. Integers $k$ were sampled from a geometric distribution with paramter $p=0.5$ to favour small integers. This results in intervals $i=0.2(k+\epsilon)$ with $\epsilon \sim \text{Normal}(0, 0.1)$ as before.
+  \item \textbf{Uniform}. Intervals were sampled uniformly between 0.2 and 2.
+  \item \textbf{Normal}. Intervals were sampled from a $\text{Normal}(1, 0.5)$ distribution, truncated at 0, so only positive samples were retained.
+  \item \textbf{Isochrony}. Idem, but with smaller varaiance: using $\text{Normal}(0, 0.05)$.
+  \item \textbf{Repeated}. The template $(1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 3, 3, 2, 4)$ of integer intervals was repeated (see figure \ref{fig:repeated-rhythm}), Gaussian noise $\epsilon \sim \text{Normal}(0, 0.1)$ was added and before, and the results was scaled by a quantum of 0.5 to get intervals $i=0.5(k + \epsilon)$.
+\end{itemize}
+
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{../scores/repeated-rhythm.pdf}
+  \caption{
+    The repeated dataset consists of repetitions of this rhythm, with some noise added. The reader may recognize the first two bars as the backbone of Steve Reichs \emph{Clapping Music}.
+    \label{fig:repeated-rhythm}
+  }
+\end{figure}
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=.5\textwidth]{../figures/synthetic-intervals-distributions.pdf}
+  \caption{%
+    Interval distributions for all synthetic datasets.
+    \label{fig:interval-distributions}%
+  }
+\end{figure}
+
+
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{../figures/plot-types/event-plots.pdf}
-  \caption{
-    Event plots of synthetic rhythmic data. Event mark each event with a vertical line.
+  \caption{%
+    Event plots of synthetic rhythmic data in which each event is marked with a vertical line.
+    \label{fig:event-plots}%
   }
 \end{figure}
 
@@ -253,6 +274,7 @@ The previous result almost immediately shows that the nPVI is proportional to th
   \caption{%
     Raster plots for synthetic rhythmic data. Every segment is plotted using two points: the shorter of the two intervals on the left in blue and the longer one on the right in orange.
     Segments are sorted vertically by their duration, with shorter segments at the bottom.
+    \label{fig:raster-plots}%
   }
 \end{figure}
 
@@ -260,7 +282,7 @@ The previous result almost immediately shows that the nPVI is proportional to th
   \includegraphics[width=\textwidth]{../figures/plot-types/phase-plots-scatter.pdf}
   \caption{
     Scatter phase plots of synthetic rhythmic data where each segment is shown as a point, with the duration of the first interval horizontally and the duration of the second interval vertically.
-    \label{fig:phase-plot-scatter}
+    \label{fig:phase-plot-scatter}%
   }
 \end{figure}
 
@@ -268,19 +290,26 @@ The previous result almost immediately shows that the nPVI is proportional to th
   \includegraphics[width=\textwidth]{../figures/plot-types/phase-plots-trajectory.pdf}
   \caption{
     Line pase plots of synthetic rhythmic data. Similar to figure \ref{fig:phase-plot-scatter}, but now with a trajectory connecting successive segments. The trajectory can obfuscate the clustering structure, but in data with recurrent regularities it produces distinct geometric shapes (e.g. subfigure F).
+    \label{fig:phase-plot-trajectory}%
   }
 \end{figure}
 
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{../figures/plot-types/pattern-duration.pdf}
-  \caption{Pattern-duration plots for synthetic rhythmic data.}
+  \caption{%
+    Pattern-duration plots for synthetic rhythmic data.
+    \label{fig:pattern-duration}%
+  }
 \end{figure}
 
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{../figures/plot-types/ratio-plots.pdf}
-  \caption{Ratio plots for synthetic rhythmic data.}
+  \caption{%
+    Ratio plots for synthetic rhythmic data.
+    \label{fig:ratio-plot}%
+  }
 \end{figure}
 
 \newpage
@@ -290,7 +319,8 @@ The previous result almost immediately shows that the nPVI is proportional to th
 \begin{figure}[h]
   \includegraphics[width=\textwidth]{../figures/cluster-analysis-3d.pdf}
   \caption{%
-    A cluster transition network using length-3 segments shown in the rhythm triangle.
+    Cluster analysis of the repeated synthetic rhythm using segments of length 3.
+    Note that the axes of the simplex have been rotated with respect to figure 3 in the paper.
     \label{fig:cluster-analysis-3d}
   }
 \end{figure}
