@@ -1,10 +1,9 @@
 # Build artifacts
-tex/out/
+tex/out
 *.aux
 *.fdb_latexmk
 *.fls
 *.log
-*.pdf
 
 # Python caches & environments
 __pycache__/
@@ -15,7 +14,4 @@ __pycache__/
 # Editor settings
 .vscode/
 
-# Generated data/figures
-# data/
-# figures/
 tmp

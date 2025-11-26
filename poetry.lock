@@ -2781,14 +2781,14 @@ testing = ["pytest (>=8.3.5)"]
 
 [[package]]
 name = "rhythmic-segments"
-version = "0.1.10"
+version = "0.1.12"
 description = "Research code for basic Rhythmic Segment Analysis."
 optional = false
 python-versions = "<3.14,>=3.11"
 groups = ["main"]
 files = [
-    {file = "rhythmic_segments-0.1.10-py3-none-any.whl", hash = "sha256:8ae4a76908a489906dd0907240029f760a4a471e7c2937d469921f6d03b31ee1"},
-    {file = "rhythmic_segments-0.1.10.tar.gz", hash = "sha256:15fbe50156d5190ef8c168f46f61de8afbe78ab236f2fba8b0e81ae4c0643f73"},
+    {file = "rhythmic_segments-0.1.12-py3-none-any.whl", hash = "sha256:a55a51dfb5a2b0a41db137544e5a3f1b1c423d5838945377adf90c74657b03dd"},
+    {file = "rhythmic_segments-0.1.12.tar.gz", hash = "sha256:62313c0b01f2f111edb1e91b3481aae03bab2781d7d6a22b7cb287b6f2d7a2a9"},
 ]
 
 [package.dependencies]

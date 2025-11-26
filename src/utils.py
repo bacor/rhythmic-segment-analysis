@@ -46,10 +46,17 @@ def load_synthetic_intervals(
         return json.load(f)
 
 
-def savefig(path: Union[str, Path], refresh: bool = False, **kws):
-    path = FIGURES_DIR / path
-    if path.exists() or refresh:
-        return plt.savefig(path, **kws)
+def savefig(name: Union[str, Path], refresh: bool = False, dpi=300, **kws):
+    base_path = (FIGURES_DIR / Path(name)).with_suffix("")
+    base_path.parent.mkdir(parents=True, exist_ok=True)
+
+    pdf_path = base_path.with_suffix(".pdf")
+    if refresh or not pdf_path.exists():
+        plt.savefig(pdf_path, **kws)
+
+    png_path = base_path.with_suffix(".png")
+    if refresh or not png_path.exists():
+        plt.savefig(png_path, dpi=dpi, **kws)
 
 
 def subplot_title(
