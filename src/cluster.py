@@ -114,10 +114,14 @@ def show_cluster_transition_network(
     return ax
 
 
-def clustered_pattern_duration_plot(rs, min_cluster_size=10, min_transitions=15):
+def clustered_pattern_duration_plot(
+    rs, min_cluster_size=10, min_transitions=15, **patdur_kws
+):
     rs, labeled, unlabeled = hdbscan_cluster(rs, min_cluster_size=min_cluster_size)
     hue_order = labeled.meta["label"].value_counts().index
-    g = pattern_duration_plot(labeled, hue="label", hue_order=hue_order, lw=0)
+    g = pattern_duration_plot(
+        labeled, hue="label", hue_order=hue_order, lw=0, **patdur_kws
+    )
 
     # Mark unlabeled points in black
     g.ax_joint.plot(
