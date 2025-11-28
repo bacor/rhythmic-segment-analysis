@@ -1,4 +1,4 @@
-# Rhythmic Segment Analysis: Data, Code & Supplements
+# Rhythmic Segment Analysis
 
 **This repository contains the Python code, data, figures, and LaTeX sources for paper _Rhythmic Segment Analysis_.**
 
