@@ -2,6 +2,8 @@
 
 **This repository contains the Python code, data, figures, and LaTeX sources for paper _Rhythmic Segment Analysis_.**
 
+📖 &nbsp;Paper (preprint coming soon) &nbsp;•&nbsp; 📜 [Supplementary materials](tex/supplements.pdf)
+
 ---
 
 ![IEMP-CSS selection](figures/iemp-css/iemp-css-teaser.png)
