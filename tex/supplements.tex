@@ -19,6 +19,7 @@
 
 \newcommand{\RR}{\mathbb{R}}
 \newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\vectm}{\vect m}
 \newcommand{\vx}{\vect x}
 \newcommand{\vy}{\vect y}
 \newcommand{\vp}{\vect p}
@@ -26,6 +27,7 @@
 \newcommand{\vr}{\vect r}
 \newcommand{\vs}{\vect s}
 \newcommand{\vc}{\vect c}
+\newcommand{\ir}{\textsc{ir}}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -147,6 +149,77 @@ Conversely, if two pairs have the same duration $e$, but different patterns, the
   = 2d \cdot d_p(\vp, \vq).
 \end{align}
 The factor two compensates for the fact that the total variation distance is half the taxicab distance.
+
+
+\subsection{Quantal data}
+
+Musical rhythm can adhere to a grid, when there is a smallest subdivision, a 'time quantum', of which all intervals are (integer) multiples. The interval distributions may show clustering around those quantum multiples, as in figure \ref{fig:interval-distributions} (subplots A, B and F). It motivates the following definition.
+
+\begin{definition}
+  A rhythmic dataset is \emph{quantal} when the interval distribution is a mixture of clusters close to integer multiples of a fixed \emph{quantum}.
+\end{definition}
+
+
+In a quantal dataset, individual intervals will also approximate quantum multiples, but I choose not to define quantal data in this way.
+Firstly, the motivating model is one where an observed interval is a noisy rendition of a latent interval category.
+The structure of interest is the latent structure, not the noise, and so it seems more appropriate to define the concept in terms of the cluster structure.
+Secondly, if we call a dataset quantal when its intervals approximate quantum multiples, then any dataset will become quantal by choosing the quantum small enough.
+Defining  quantal data in terms of clusters does not resolve this entirely.
+Indeed, the definition remains informal untill one specifies (1) what constitutes narrow and well-separated clustering, (2) a maximum distance between a cluster and the closest quantum multiple and (3) a lower bound for the quantum relative to the shortest interval cluster.
+% For example $\tfrac{1}{4}q$ 
+% (e.g. one order of magnitude, so $q > \tfrac{m}{10}$ where $m$ is the smallest mode).
+
+
+
+\subsection{Integer ratios}
+
+The notion of quantal data is closely related to the presence of integer ratio rhythms—but what does the latter even mean?
+In terms of segments and patterns, there are two possible readings: (1) that \emph{patterns} clusters around around integer ratios or (2) that \emph{segments} clusters around integer ratios.
+The first reading seems to be the default and is consistent with the use of ratio plots.
+I would, however, argue for the second reading.
+To explain why, I will define the two readings more explicitly, yet without completely formalizing them.
+I will assume that clusters are narrow, separated regions of high-density in the distribution;
+segments with only integer entries will be called \emph{integer segments}; and patterns of integer segments are \emph{integer ratio patterns}. The first reading amounts to the following.
+
+
+\begin{definition}
+  Rhythmic data has \emph{integer ratio pattern clusters} if the pattern distribution is a mixture of clusters close to integer ratio patterns.
+\end{definition}
+
+This means that a ratio plot should show clear clustering around integer ratio patterns.
+But in the main text, I pointed to a problem: distinct \emph{segment} clusters can create overlapping pattern clusters.
+Figure \ref{fig:flat-ratio-plot} illustrates this point. It shows a repeated rhythm that is designed to traverse very similar patterns, resulting in an almost flat ratio plot, or in any case one that underestimates the number of segment clusters.
+And for that reason, I would argue for defining the presence of integer ratio rhythms in terms of the segments, not the patterns:
+
+\begin{figure}
+  \centering%
+  \includegraphics[width=.7\textwidth]{../figures/flat-ratio-plot.png}
+  \caption{%
+    Overlapping segment clusters can distort the number of rhythmic categories in ratio plots. A repeated rhythm traverses proximate ratios such as 2:7 and 2:6. When projected on the horizontal axes, some of these clusters disappear (top). Kernel density plots are sensitive to the bandwidth parameter; the dotted and dashed lines show kernel density estimates with every smaller bandwiths.
+    \label{fig:flat-ratio-plot}
+  }
+\end{figure}
+
+
+\begin{definition}
+  Rhythmic data has \emph{integer ratio segment clusters} if there is a fixed number $q$ such that segment distribution is a mixture of clusters, each close to $q \cdot \vectm$ for some integer segment $\vectm$.
+\end{definition}
+
+In pattern-duration space, integer ratio segment clusters are clusters with integer ratio patterns and whose durations are all integer multiples of the same interval $q$.
+As may be clear by now, this is very closely tied to the concept of quantality: they are equivalent.
+
+
+\begin{theorem}
+  A dataset has integer ratio segment clusters if and only if it is quantal.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+  Suppose a dataset has integer ratio segment clusters, so that each cluster is close to $q \vectm$ for some integer segment $\vectm$.
+  Projecting on any coordinate gives the interval distribution, which will have a cluster close to the corresponding quantum multiple. This implies the dataset is quantal.
+  Conversely, if the dataset is quantal all intervals are of the form $q m + \delta$ for some integer $m$ and a small $\delta$ . That implies that each segment is close to $q \vectm$ for some integer segment $\vectm$ and we find integer ratio segment clustering.
+\end{proof}
+
+This suggests that the presence of integer ratios and quantality are two sides of the same coin, which means that one can replace questions about integer ratios with questions about quantality.
 
 \subsection{Anisochrony and the nPVI}
 
@@ -311,6 +384,5 @@ Interval distributions of all datasets are shown in figure \ref{fig:interval-dis
     \label{fig:ratio-plot}%
   }
 \end{figure}
-
 
 \end{document}
