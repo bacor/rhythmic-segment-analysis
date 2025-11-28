@@ -147,6 +147,8 @@ def pattern_duration_plot(
     marginals_kws=None,
     isochronous_axis=True,
     palette=None,
+    ratio=7,
+    height=6,
     **joint_kws,
 ) -> sns.JointGrid:
     """Create a joint scatter/KDE plot of rhythmic patterns vs durations.
@@ -170,8 +172,8 @@ def pattern_duration_plot(
         y=rs.durations,
         hue=hue_values,
         hue_order=hue_order,
-        height=6,
-        ratio=7,
+        height=height,
+        ratio=ratio,
         palette=palette,
     )
 
