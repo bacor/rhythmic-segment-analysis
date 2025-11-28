@@ -46,21 +46,19 @@
 
 \maketitle
 
-\begin{abstract}
-  This document contains supplementary materials.
-\end{abstract}
-
 \tableofcontents
 
 \section{Backmatter}
 
-\subsection{Data and code}
+\paragraph{Data and code}
 
-The Python package rhythmic-segments can be installed using pip, and documentation is available on bacor.github.io/rhythmic-segments. Data and code used for the examples in this paper is available online: \textbf{[will be deposited to Zotero upon acceptance]}. Note in particular that it contains a small LaTeX package used to produce figures 2 and 3.
+The Python package rhythmic-segments can be installed using pip, and documentation is available on bacor.github.io/rhythmic-segments. Data and code used for the examples in this paper is available online: \textbf{[WILL BE ADDED AFTER FIRST RELEASE]}. Note in particular that it contains a small LaTeX package used to produce figures 2 and 3.
 
-\subsection{Use of AI tools}
+\paragraph{Use of AI tools}
 
-OpenAI’s Codex model assisted the development some of the research code, but always instructed and supervised by the author: much of the Python package was for example written in collaboration with Codex, in particular the documentation and test suites. ChatGPT was used when brainstorming terminology and presentation of the ideas in this paper: the term ‘quantal’ was for example suggested by ChatGPT. The first draft of this paper was written solely by the author and is available upon request. Afterwards, spelling and grammar were corrected using feedback from a chatbot; editorial suggestions for improved fluency were also included.
+OpenAI’s Codex model assisted the development some of the research code, but always instructed and supervised by the author: much of the Python package was for example written in collaboration with Codex, in particular the documentation and test suites. ChatGPT was used when brainstorming terminology and presentation of the ideas in this paper: the term ‘quantal’ was for example suggested by ChatGPT. A draft of this paper was written solely by the author. Afterwards, spelling and grammar were corrected using feedback from a chatbot, and editorial suggestions for improved fluency were also considered.
+
+\newpage
 
 \section{Mathematical framework}
 
@@ -71,7 +69,7 @@ This section develops the main concepts underlying rhythmic segment analysis in 
 Consider a dataset $\{t_1, \dots, t_{K+1}\}$ of distinct events ordered in time, and let $i_k = t_{k+1}-t_k$ denote the time intervals between them.
 We may in practice assume that intervals are strictly positive, but formally we can allow for zero intervals.
 Any sequence of $n$ consecutive (and nonnegative) intervals $\vx = (i_k, \dots, i_{k+n})$ will be called a \emph{segment} of length $n$.
-We will use the the $L_1$- norm,
+We will use the $L_1$-norm,
 \begin{align}
   \|\vx\|_1 = |x_1| + \dots + |x_n|,
 \end{align}
@@ -93,10 +91,10 @@ That pattern can be expressed equivalently by either the \emph{ratios} $1 : 2 : 
 The $(n-1)$-dimensional \emph{simplex} $\Delta^{n-1}$ is exactly the space of nonnegative and normalized vectors:
 \begin{align}
   \Delta^{n-1}
-  = \{ \vx \in \RR_{\ge 0}^n: x_1 + \dots x_n = 1\}.
+  = \{ \vx \in \RR_{\ge 0}^n: x_1 + \dots + x_n = 1\}.
 \end{align}
 We will equip the simplex with the \emph{total variation distance}, which is half the taxicab distance, and will refer to it as the \emph{pattern distance} $d_p$.
-This is distance is normalized, so that the total variation distance between any two corners of the simplex is 1.\footnote{%
+This distance is normalized, so that the total variation distance between any two corners of the simplex is 1.\footnote{%
   Two corners $\vp$ and $\vq$ have all-zero coordinates, except for a single 1 in different places. Therefore, $\tfrac{1}{2}\|\vp-\vq\|_1 = \tfrac{1}{2} (|0-1| + |1 - 0|) = 1$.
 }
 
@@ -153,19 +151,18 @@ The factor two compensates for the fact that the total variation distance is hal
 
 \subsection{Quantal data}
 
-Musical rhythm can adhere to a grid, when there is a smallest subdivision, a 'time quantum', of which all intervals are (integer) multiples. The interval distributions may show clustering around those quantum multiples, as in figure \ref{fig:interval-distributions} (subplots A, B and F). It motivates the following definition.
+If musical rhythm adheres to a grid, there is a smallest interval, a 'time quantum', of which all intervals are (integer) multiples. The interval distributions may accordingly show clustering around those quantum multiples, as in figure \ref{fig:interval-distributions}A, B and F. It motivates the following definition.
 
 \begin{definition}
   A rhythmic dataset is \emph{quantal} when the interval distribution is a mixture of clusters close to integer multiples of a fixed \emph{quantum}.
 \end{definition}
 
-
 In a quantal dataset, individual intervals will also approximate quantum multiples, but I choose not to define quantal data in this way.
 Firstly, the motivating model is one where an observed interval is a noisy rendition of a latent interval category.
 The structure of interest is the latent structure, not the noise, and so it seems more appropriate to define the concept in terms of the cluster structure.
 Secondly, if we call a dataset quantal when its intervals approximate quantum multiples, then any dataset will become quantal by choosing the quantum small enough.
-Defining  quantal data in terms of clusters does not resolve this entirely.
-Indeed, the definition remains informal untill one specifies (1) what constitutes narrow and well-separated clustering, (2) a maximum distance between a cluster and the closest quantum multiple and (3) a lower bound for the quantum relative to the shortest interval cluster.
+Defining quantal data in terms of clusters does not resolve this entirely.
+Indeed, the definition remains informal until one specifies (1) what constitutes narrow and well-separated clustering, (2) a maximum distance between a cluster and the closest quantum multiple and (3) a lower bound for the quantum relative to the shortest interval cluster.
 % For example $\tfrac{1}{4}q$ 
 % (e.g. one order of magnitude, so $q > \tfrac{m}{10}$ where $m$ is the smallest mode).
 
@@ -174,7 +171,7 @@ Indeed, the definition remains informal untill one specifies (1) what constitute
 \subsection{Integer ratios}
 
 The notion of quantal data is closely related to the presence of integer ratio rhythms—but what does the latter even mean?
-In terms of segments and patterns, there are two possible readings: (1) that \emph{patterns} clusters around around integer ratios or (2) that \emph{segments} clusters around integer ratios.
+In terms of segments and patterns, there are two possible readings: (1) that \emph{patterns} cluster around integer ratios or (2) that \emph{segments} cluster around integer ratios.
 The first reading seems to be the default and is consistent with the use of ratio plots.
 I would, however, argue for the second reading.
 To explain why, I will define the two readings more explicitly, yet without completely formalizing them.
@@ -195,7 +192,7 @@ And for that reason, I would argue for defining the presence of integer ratio rh
   \centering%
   \includegraphics[width=.7\textwidth]{../figures/flat-ratio-plot.png}
   \caption{%
-    Overlapping segment clusters can distort the number of rhythmic categories in ratio plots. A repeated rhythm traverses proximate ratios such as 2:7 and 2:6. When projected on the horizontal axes, some of these clusters disappear (top). Kernel density plots are sensitive to the bandwidth parameter; the dotted and dashed lines show kernel density estimates with every smaller bandwiths.
+    Overlapping segment clusters can distort the number of rhythmic categories in ratio plots. A repeated rhythm traverses proximate ratios such as 2:7 and 2:6. When projected on the horizontal axes, some of these clusters disappear (top). Kernel density plots are sensitive to the bandwidth parameter; the dotted and dashed lines show kernel density estimates with ever smaller bandwidths.
     \label{fig:flat-ratio-plot}
   }
 \end{figure}
@@ -216,7 +213,7 @@ As may be clear by now, this is very closely tied to the concept of quantality: 
 \begin{proof}[Proof sketch]
   Suppose a dataset has integer ratio segment clusters, so that each cluster is close to $q \vectm$ for some integer segment $\vectm$.
   Projecting on any coordinate gives the interval distribution, which will have a cluster close to the corresponding quantum multiple. This implies the dataset is quantal.
-  Conversely, if the dataset is quantal all intervals are of the form $q m + \delta$ for some integer $m$ and a small $\delta$ . That implies that each segment is close to $q \vectm$ for some integer segment $\vectm$ and we find integer ratio segment clustering.
+  Conversely, if the dataset is quantal all intervals are of the form $q m + \delta$ for some integer $m$ and a small $\delta$. That implies that each segment is close to $q \vectm$ for some integer segment $\vectm$ and we find integer ratio segment clustering.
 \end{proof}
 
 This suggests that the presence of integer ratios and quantality are two sides of the same coin, which means that one can replace questions about integer ratios with questions about quantality.
@@ -225,7 +222,7 @@ This suggests that the presence of integer ratios and quantality are two sides o
 
 In this section we define a measure of \emph{anisochrony} and show how it relates to the normalized pairwise variability index (nPVI).
 First, some notation and properties.
-Let \emph{centroid} of a simplex be written as $\vc = (\tfrac{1}{n}, \dots, \tfrac{1}{n})$.
+Let the \emph{centroid} of a simplex be written as $\vc = (\tfrac{1}{n}, \dots, \tfrac{1}{n})$.
 The distance from any corner $\vp$ to the centroid is $(n-1)/n$. To see this, note that $\vp$ contains only zeros and a single one. It follows that the distance to the centroid is
 \begin{align}
   \tfrac{1}{2}\Big((n-1) \cdot |0 - \tfrac{1}{n}| +
@@ -270,7 +267,7 @@ The second equality proves the following result, when noting that the normalizin
   The anisochrony of a pattern of length 2 is $\alpha((p_1, p_2)) = |p_1 - p_2|$.
 \end{theorem}
 
-Now we can turn to the normalized pairwise variability index a sequence of intervals $(i_1, \dots, i_K)$, which is defined as
+Now we can turn to the normalized pairwise variability index for a sequence of intervals $(i_1, \dots, i_K)$, which is defined as
 \begin{align}
   \text{nPVI}
   = \frac{200}{K-1} \sum_{k=1}^{K-1}
@@ -292,7 +289,7 @@ The previous result almost immediately shows that the nPVI is proportional to th
     \quad \text{where}\;
     \vp_k = \Big(\frac{i_k}{i_k+i_{k+1}}, \;\frac{i_{k+1}}{i_k+i_{k+1}}\Big),
   \end{align}
-  which is summand in the definition of the nPVI.
+  which is a summand in the definition of the nPVI.
   It follows that the average anisochrony $\tfrac{1}{K-1}\sum_k \alpha(\vp_k)$
   equals $\nicefrac{1}{200} \times \text{nPVI}$.
 \end{proof}
@@ -301,16 +298,18 @@ The previous result almost immediately shows that the nPVI is proportional to th
 
 \section{Visualization}
 
+\subsection{Synthetic data}
+
 The main text compares visualizations of three types of synthetic rhythmic data. These supplements include some additional plots for three more synthetic datasets.
 Interval distributions of all datasets are shown in figure \ref{fig:interval-distributions}.
 
 \begin{itemize}
   \item \textbf{Uniform quantal}. Integers $k$ were sampled uniformly between 1 and 11. Gaussian noise $\epsilon \sim \text{Normal}(0, 0.1)$ was added, and the result scaled by a quantum of $0.2$ to get intervals $i = 0.2 (k + \epsilon)$.
-  \item \textbf{Geometric quantal}. Integers $k$ were sampled from a geometric distribution with paramter $p=0.5$ to favour small integers. This results in intervals $i=0.2(k+\epsilon)$ with $\epsilon \sim \text{Normal}(0, 0.1)$ as before.
+  \item \textbf{Geometric quantal}. Integers $k$ were sampled from a geometric distribution with parameter $p=0.5$ to favour small integers. This results in intervals $i=0.2(k+\epsilon)$ with $\epsilon \sim \text{Normal}(0, 0.1)$ as before.
   \item \textbf{Uniform}. Intervals were sampled uniformly between 0.2 and 2.
   \item \textbf{Normal}. Intervals were sampled from a $\text{Normal}(1, 0.5)$ distribution, truncated at 0, so only positive samples were retained.
-  \item \textbf{Isochrony}. Idem, but with smaller varaiance: using $\text{Normal}(0, 0.05)$.
-  \item \textbf{Repeated}. The template $(1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 3, 3, 2, 4)$ of integer intervals was repeated (see figure \ref{fig:repeated-rhythm}), Gaussian noise $\epsilon \sim \text{Normal}(0, 0.1)$ was added and before, and the results was scaled by a quantum of 0.5 to get intervals $i=0.5(k + \epsilon)$.
+  \item \textbf{Isochrony}. Idem, but with smaller variance: using $\text{Normal}(0, 0.05)$.
+  \item \textbf{Repeated}. The template $(1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 3, 3, 2, 4)$ of integer intervals was repeated (see figure \ref{fig:repeated-rhythm}), Gaussian noise $\epsilon \sim \text{Normal}(0, 0.1)$ was added as before, and the result was scaled by a quantum of 0.5 to get intervals $i=0.5(k + \epsilon)$.
 \end{itemize}
 
 \begin{figure}[h!]
@@ -362,7 +361,7 @@ Interval distributions of all datasets are shown in figure \ref{fig:interval-dis
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{../figures/plot-types/phase-plots-trajectory.png}
   \caption{
-    Line pase plots of synthetic rhythmic data. Similar to figure \ref{fig:phase-plot-scatter}, but now with a trajectory connecting successive segments. The trajectory can obfuscate the clustering structure, but in data with recurrent regularities it produces distinct geometric shapes (e.g. subfigure F).
+    Line phase plots of synthetic rhythmic data. Similar to figure \ref{fig:phase-plot-scatter}, but now with a trajectory connecting successive segments. The trajectory can obfuscate the clustering structure, but in data with recurrent regularities it produces distinct geometric shapes (e.g. subfigure F).
     \label{fig:phase-plot-trajectory}%
   }
 \end{figure}
@@ -384,5 +383,39 @@ Interval distributions of all datasets are shown in figure \ref{fig:interval-dis
     \label{fig:ratio-plot}%
   }
 \end{figure}
+
+
+\clearpage
+\subsection{Cuban salsa and son}
+
+\paragraph{Cycle durations} 
+The main text shows pattern-duration plots of four instruments from the IEMP Cuban salsa and son (IEMP-CSS) corpus.
+The metrical cycles of have been annotated and allow us to work out the 16th note duration; the cycle distribution is shown in figure \ref{fig:iemp-css-meter}.
+
+\paragraph{Pattern-duration plots per instrument}
+Pattern duration plots of all instruments in song 1 are shown in figure \ref{fig:iemp-css-song1}. Plots for instruments in other songs can be found in the repository alongside the notebooks used to generate them.
+
+
+
+\begin{figure} \centering
+  \includegraphics[width=.7\textwidth]{../figures/iemp-css/metrical-cycles.png}
+  \caption{%
+    Metrical cycle duration for all of the songs in the IEMP-CSS corpus.
+    Pattern-duration plots are shown on the left; the interval distribution on the right. 
+    \label{fig:iemp-css-meter}
+  }
+\end{figure}
+
+
+\begin{figure}\centering
+    \includegraphics[height=.95\textheight]{../figures/iemp-css/song-1-instruments.png}
+    \caption{%
+      Pattern-duration plots of all instruments in song 1. See main text for details.
+      \label{fig:iemp-css-song1}
+    }
+
+
+\end{figure}
+
 
 \end{document}
