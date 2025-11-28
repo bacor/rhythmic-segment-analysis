@@ -4,6 +4,7 @@ tex/out
 *.fdb_latexmk
 *.fls
 *.log
+.mscbackup
 
 # Python caches & environments
 __pycache__/
@@ -13,5 +14,6 @@ __pycache__/
 
 # Editor settings
 .vscode/
+.env
 
 tmp

@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/1097050911.svg)](https://zenodo.org/badge/latestdoi/1097050911)
+
 # Rhythmic Segment Analysis
 
 **This repository contains the Python code, data, figures, and LaTeX sources for the paper _Rhythmic Segment Analysis_.**
