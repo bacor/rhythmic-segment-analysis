@@ -3,12 +3,23 @@
 from __future__ import annotations
 
 from itertools import product
-from typing import Iterable, Mapping, Optional
+from typing import Any, Dict, Iterable, Mapping, Optional
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+from matplotlib.axes import Axes
+from matplotlib.colors import Normalize
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
 import seaborn as sns
+
+# Default placement for the horizontal inset colorbar.
+DEFAULT_CBAR_INSET_AXES: Dict[str, Any] = {
+    "width": "30%",
+    "height": "4%",
+    "loc": "upper right",
+    "bbox_to_anchor": (0.05, 0.05, 0.9, 0.9),
+}
 
 DEFAULT_RATIO_MARKER: Mapping[str, object] = dict(
     marker="+",
@@ -221,3 +232,62 @@ def quantized_dur_pat_plot(
     label = ylabel or f"Duration (pulse = {pulse:.2f}{pulse_unit})"
     ax.set_ylabel(label)
     return ax
+
+
+def inset_cbar(
+    norm: Normalize,
+    cmap: str = "viridis",
+    ax: Optional[Axes] = None,
+    label: str = "Time",
+    **inset_axes_kws: Any,
+) -> Axes:
+    """Draw a horizontal inset colorbar that matches a scatter hue.
+
+    Parameters
+    ----------
+    norm:
+        Matplotlib ``Normalize`` instance describing the color scale.
+    cmap:
+        Colormap name passed to ``ScalarMappable``.
+    ax:
+        Axis that hosts the scatter plot. Defaults to ``plt.gca()``.
+    label:
+        Label displayed on the colorbar axis.
+    **inset_axes_kws:
+        Extra keyword arguments forwarded to ``inset_axes`` to control the
+        placement or size of the colorbar axes.
+
+    Returns
+    -------
+    matplotlib.axes.Axes
+        The newly created colorbar axes, useful for further customization.
+
+    Examples
+    --------
+    Create a colorbar inset for a scatter plot using an explicit ``Normalize``:
+
+    >>> from matplotlib import pyplot as plt
+    >>> from matplotlib.colors import Normalize
+    >>> fig, ax = plt.subplots()
+    >>> _ = ax.scatter([0, 1], [0, 1], c=[0, 1], cmap="viridis")
+    >>> cax = inset_cbar(Normalize(0, 1), ax=ax, label="Value")
+    >>> isinstance(cax, plt.Axes)
+    True
+    >>> plt.close(fig)
+
+    To derive ``norm`` from a ``RhythmicSegments`` instance use
+    :func:`norm_from_segments`.
+
+    """
+    if ax is None:
+        ax = plt.gca()
+
+    fig = ax.figure
+    scalar_mappable = plt.cm.ScalarMappable(norm=norm, cmap=cmap)
+    scalar_mappable.set_array([])
+
+    merged_inset_kwargs = DEFAULT_CBAR_INSET_AXES | inset_axes_kws
+    cax = inset_axes(ax, bbox_transform=ax.transAxes, **merged_inset_kwargs)
+    cbar = fig.colorbar(scalar_mappable, cax=cax, orientation="horizontal", label=label)
+    cax.xaxis.set_ticks_position("bottom")
+    return cax, cbar
