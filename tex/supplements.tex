@@ -38,6 +38,10 @@
 % \usepackage[style=apa, backend=biber]{biblatex}
 % \addbibresource{bib.bib}
 
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thesubsection}{S\arabic{section}.\arabic{subsection}}
+
+
 \title{Rhythmic Segment Analysis:\\Supplementary materials}
 \author{Bas Cornelissen}
 \date{}
@@ -52,7 +56,7 @@
 
 \paragraph{Data and code}
 
-The Python package rhythmic-segments can be installed using pip, and documentation is available on bacor.github.io/rhythmic-segments. Data and code used for the figures in this paper is available as a GitHub repository at \href{https://github.com/bacor/rhythmic-segment-analysis}{github.com/bacor/rhythmic-segment-analysis}, and has been permanently archived at Zenodo under DOI \href{https://doi.org/10.5281/zenodo.17753529}{\textbf{10.5281/zenodo.17753529}}. 
+The Python package rhythmic-segments can be installed using pip, and documentation is available on bacor.github.io/rhythmic-segments. Data and code used for the figures in this paper is available as a GitHub repository at \href{https://github.com/bacor/rhythmic-segment-analysis}{github.com/bacor/rhythmic-segment-analysis}, and has been permanently archived at Zenodo under DOI \href{https://doi.org/10.5281/zenodo.17753529}{\textbf{10.5281/zenodo.17753529}}.
 
 \paragraph{Use of AI tools}
 
@@ -296,9 +300,7 @@ The previous result almost immediately shows that the nPVI is proportional to th
 
 \newpage
 
-\section{Visualization}
-
-\subsection{Synthetic data}
+\section{Synthetic data}
 
 The main text compares visualizations of three types of synthetic rhythmic data. These supplements include some additional plots for three more synthetic datasets.
 Interval distributions of all datasets are shown in figure \ref{fig:interval-distributions}.
@@ -386,9 +388,9 @@ Interval distributions of all datasets are shown in figure \ref{fig:interval-dis
 
 
 \clearpage
-\subsection{Cuban salsa and son}
+\section{Cuban salsa and son}
 
-\paragraph{Cycle durations} 
+\paragraph{Cycle durations}
 The main text shows pattern-duration plots of four instruments from the IEMP Cuban salsa and son (IEMP-CSS) corpus.
 The metrical cycles of have been annotated and allow us to work out the 16th note duration; the cycle distribution is shown in figure \ref{fig:iemp-css-meter}.
 
@@ -401,18 +403,18 @@ Pattern duration plots of all instruments in song 1 are shown in figure \ref{fig
   \includegraphics[width=.7\textwidth]{../figures/iemp-css/metrical-cycles.png}
   \caption{%
     Metrical cycle duration for all of the songs in the IEMP-CSS corpus.
-    Pattern-duration plots are shown on the left; the interval distribution on the right. 
+    Pattern-duration plots are shown on the left; the interval distribution on the right.
     \label{fig:iemp-css-meter}
   }
 \end{figure}
 
 
 \begin{figure}\centering
-    \includegraphics[height=.95\textheight]{../figures/iemp-css/song-1-instruments.png}
-    \caption{%
-      Pattern-duration plots of all instruments in song 1. See main text for details.
-      \label{fig:iemp-css-song1}
-    }
+  \includegraphics[height=.95\textheight]{../figures/iemp-css/song-1-instruments.png}
+  \caption{%
+    Pattern-duration plots of all instruments in song 1. See main text for details.
+    \label{fig:iemp-css-song1}
+  }
 
 
 \end{figure}
