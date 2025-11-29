@@ -1,3 +1,5 @@
+"""Miscellaneous helpers for paths, matplotlib styling, and figures."""
+
 import os
 import json
 from pathlib import Path
@@ -16,6 +18,13 @@ ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
 def get_data_directory(subdirectory=None):
+    """Resolve the shared data directory from ``SHARED_DATA_DIR`` env var.
+
+    Parameters
+    ----------
+    subdirectory:
+        Optional subfolder to append to the base path.
+    """
     from dotenv import load_dotenv
 
     load_dotenv()
@@ -31,6 +40,15 @@ def get_data_directory(subdirectory=None):
 
 
 def show_readme(data_dir, filename="README.md"):
+    """Render a README from the given data directory in a notebook.
+
+    Parameters
+    ----------
+    data_dir:
+        Root data directory containing the README.
+    filename:
+        Name of the README file to display.
+    """
     from IPython.display import Markdown, display
     from pathlib import Path
 
@@ -41,12 +59,32 @@ def show_readme(data_dir, filename="README.md"):
 def load_synthetic_intervals(
     path: Union[str, Path] = DATA_DIR / "synthetic-intervals.json",
 ):
+    """Load cached synthetic intervals from disk.
+
+    Parameters
+    ----------
+    path:
+        JSON file containing cached intervals.
+    """
     path = Path(path)
     with path.open("r") as f:
         return json.load(f)
 
 
 def savefig(name: Union[str, Path], refresh: bool = False, dpi=300, **kws):
+    """Save a figure as PDF and PNG in ``figures/``.
+
+    Parameters
+    ----------
+    name:
+        File stem or path relative to ``figures/`` (extension is added).
+    refresh:
+        Force regeneration even if a file already exists.
+    dpi:
+        Resolution for the PNG output.
+    **kws:
+        Extra arguments forwarded to :func:`matplotlib.pyplot.savefig`.
+    """
     base_path = (FIGURES_DIR / Path(name)).with_suffix("")
     base_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -62,6 +100,19 @@ def savefig(name: Union[str, Path], refresh: bool = False, dpi=300, **kws):
 def subplot_title(
     index, title, ha="left", x=0, fontsize=10, fontweight="bold", ax=None, **title_kws
 ):
+    """Prefix a subplot title with a lettered label (A., B., ...).
+
+    Parameters
+    ----------
+    index:
+        Subplot index used to pick the alphabetic prefix.
+    title:
+        Text to show after the prefix.
+    ha, x, fontsize, fontweight, ax:
+        Passed through to :meth:`matplotlib.axes.Axes.set_title`.
+    **title_kws:
+        Additional keyword arguments forwarded to ``set_title``.
+    """
     if ax is None:
         ax = plt.gca()
     return ax.set_title(
@@ -75,6 +126,19 @@ def subplot_title(
 
 
 def subplots_grid(N, ratios=(3, 3), max_ncols=3, **kws):
+    """Create a grid of subplots sized by ``ratios`` with limited columns.
+
+    Parameters
+    ----------
+    N:
+        Total number of panels to create.
+    ratios:
+        Width/height scaling applied to the figure size.
+    max_ncols:
+        Maximum number of columns before wrapping to a new row.
+    **kws:
+        Extra keyword arguments forwarded to :func:`matplotlib.pyplot.subplots`.
+    """
     ncols = min(N, max_ncols)
     nrows = int(np.ceil(N / ncols))
     if "ncols" in kws:

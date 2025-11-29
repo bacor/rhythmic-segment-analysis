@@ -1,3 +1,5 @@
+"""Raster plotting helpers for interval and segment visualisation."""
+
 from __future__ import annotations
 
 from typing import Any, Dict, Tuple
@@ -19,6 +21,7 @@ _SYMMETRIC_TICK_FORMATTER = FuncFormatter(
 def _prepare_segments(
     rs: RhythmicSegments,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Return shortest/longest intervals per segment plus sorted y positions."""
     order = np.argsort(rs.durations)
     shortest = rs.segments.min(axis=1)[order]
     longest = rs.segments.max(axis=1)[order]
@@ -33,6 +36,7 @@ def _resolve_limits(
     right: float | None,
     symmetric: bool,
 ) -> Tuple[float, float]:
+    """Determine x-axis limits given requested bounds and symmetry flag."""
     auto_left = -float(shortest.max())
     auto_right = float(longest.max())
     if left is None:

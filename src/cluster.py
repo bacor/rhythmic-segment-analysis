@@ -1,3 +1,5 @@
+"""Clustering utilities for rhythmic pattern-duration data."""
+
 from collections import Counter
 from typing import Dict, Optional, Tuple
 from sklearn.cluster import HDBSCAN
@@ -10,13 +12,32 @@ from matplotlib.axes import Axes
 
 from rhythmic_segments import RhythmicSegments
 
-from .patdur import pattern_duration_plot, quantal_pattern_duration_plot
+from .patdur import pattern_duration_plot
 
 TransitionCounts = Counter[Tuple[str, str]]
 ClusterStats = Dict[str, Dict[str, np.ndarray]]
 
 
 def hdbscan_cluster(rs, min_cluster_size=20, seed=0, **kws):
+    """Cluster pattern-duration pairs with HDBSCAN and attach labels.
+
+    Parameters
+    ----------
+    rs:
+        RhythmicSegments object with ``patterns``/``durations`` to cluster.
+    min_cluster_size:
+        Minimum cluster size passed to :class:`~sklearn.cluster.HDBSCAN`.
+    seed:
+        Random seed used before fitting the model.
+    **kws:
+        Additional keyword arguments forwarded to :class:`HDBSCAN`.
+
+    Returns
+    -------
+    (rs, labeled, unlabeled):
+        The input ``rs`` with a ``label`` column plus filtered labeled/unlabeled
+        subsets.
+    """
     np.random.seed(seed)
     model = HDBSCAN(min_cluster_size=min_cluster_size, **kws)
     data = np.array([rs.patterns[:, 0], rs.durations]).T
@@ -117,6 +138,19 @@ def show_cluster_transition_network(
 def clustered_pattern_duration_plot(
     rs, min_cluster_size=10, min_transitions=15, **patdur_kws
 ):
+    """Plot patterns/durations colored by HDBSCAN clusters plus transition graph.
+
+    Parameters
+    ----------
+    rs:
+        RhythmicSegments object to cluster and visualise.
+    min_cluster_size:
+        Minimum cluster size passed to :func:`hdbscan_cluster`.
+    min_transitions:
+        Minimum edge count to display in the transition network.
+    **patdur_kws:
+        Extra keyword arguments forwarded to :func:`pattern_duration_plot`.
+    """
     rs, labeled, unlabeled = hdbscan_cluster(rs, min_cluster_size=min_cluster_size)
     hue_order = labeled.meta["label"].value_counts().index
     g = pattern_duration_plot(
