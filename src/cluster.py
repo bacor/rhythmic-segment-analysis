@@ -57,7 +57,7 @@ def count_value_transitions(
     rs: RhythmicSegments,
     column: str,
 ) -> TransitionCounts:
-    """Count transitions between values in a metadata column"""
+    """Count transitions between consecutive values in a metadata column."""
     counts: TransitionCounts = Counter()
     labels = rs.meta[column].to_numpy()
     for prev, nxt in zip(labels[:-1], labels[1:]):
@@ -85,7 +85,24 @@ def cluster_transition_network(
     min_transitions: int = 0,
     ignore: Optional[list[str]] = None,
 ) -> nx.DiGraph:
-    """Build a directed graph with cluster centroids as nodes."""
+    """Build a directed graph summarising transitions between value clusters.
+
+    Parameters
+    ----------
+    rs:
+        RhythmicSegments object to read metadata and cluster centroids from.
+    column:
+        Metadata column containing the cluster/value labels.
+    min_transitions:
+        Minimum transition count required to keep an edge.
+    ignore:
+        Optional labels to drop entirely from the graph (e.g., noise label ``-1``).
+
+    Returns
+    -------
+    networkx.DiGraph
+        Graph with nodes located at cluster centroids and weighted edges.
+    """
     graph = nx.DiGraph()
     clusters = cluster_by_value(rs, column=column)
     for idx, (label, stats) in enumerate(clusters.items()):
@@ -115,7 +132,28 @@ def show_cluster_transition_network(
     ax: Optional[Axes] = None,
     show_labels: bool = False,
 ) -> Axes:
-    """Draw the cluster transition graph."""
+    """Draw the cluster transition graph.
+
+    Parameters
+    ----------
+    rs:
+        RhythmicSegments object to summarise.
+    column:
+        Metadata column to interpret as cluster/value labels.
+    min_transitions:
+        Minimum transition count required to draw an edge.
+    ignore:
+        Labels to drop from the graph entirely.
+    ax:
+        Axes to draw on; defaults to current axes.
+    show_labels:
+        When ``True``, annotate nodes with their labels.
+
+    Returns
+    -------
+    matplotlib.axes.Axes
+        Axes the network was drawn on.
+    """
     ax = ax or plt.gca()
     graph = cluster_transition_network(
         rs, column=column, min_transitions=min_transitions, ignore=ignore
@@ -162,6 +200,11 @@ def clustered_pattern_duration_plot(
         Minimum edge count to display in the transition network.
     **patdur_kws:
         Extra keyword arguments forwarded to :func:`pattern_duration_plot`.
+
+    Returns
+    -------
+    seaborn.axisgrid.JointGrid
+        JointGrid with the scatter plot and marginal KDEs.
     """
     rs, labeled, unlabeled = hdbscan_cluster(rs, min_cluster_size=min_cluster_size)
     hue_order = labeled.meta["label"].value_counts().index
