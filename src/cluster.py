@@ -1,15 +1,15 @@
 """Clustering utilities for rhythmic pattern-duration data."""
 
-from collections import Counter
-from typing import Dict, Optional, Tuple
-from sklearn.cluster import HDBSCAN
-import pandas as pd
+from __future__ import annotations
+from typing import Any, Dict, Optional, Tuple
 
-import matplotlib.pyplot as plt
-import networkx as nx
 import numpy as np
+import networkx as nx
+import seaborn as sns
+import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
-
+from collections import Counter
+from sklearn.cluster import HDBSCAN
 from rhythmic_segments import RhythmicSegments
 
 from .patdur import pattern_duration_plot
@@ -18,7 +18,12 @@ TransitionCounts = Counter[Tuple[str, str]]
 ClusterStats = Dict[str, Dict[str, np.ndarray]]
 
 
-def hdbscan_cluster(rs, min_cluster_size=20, seed=0, **kws):
+def hdbscan_cluster(
+    rs: RhythmicSegments,
+    min_cluster_size: int = 20,
+    seed: int = 0,
+    **kws: Any,
+) -> Tuple[RhythmicSegments, RhythmicSegments, RhythmicSegments]:
     """Cluster pattern-duration pairs with HDBSCAN and attach labels.
 
     Parameters
@@ -75,7 +80,10 @@ def cluster_by_value(rs: RhythmicSegments, column: str) -> ClusterStats:
 
 
 def cluster_transition_network(
-    rs: RhythmicSegments, column: str, min_transitions=0, ignore=["-1"]
+    rs: RhythmicSegments,
+    column: str,
+    min_transitions: int = 0,
+    ignore: Optional[list[str]] = None,
 ) -> nx.DiGraph:
     """Build a directed graph with cluster centroids as nodes."""
     graph = nx.DiGraph()
@@ -83,6 +91,7 @@ def cluster_transition_network(
     for idx, (label, stats) in enumerate(clusters.items()):
         graph.add_node(label, pos=stats["center"], color=f"C{idx}")
 
+    ignore = ignore or ["-1"]
     edge_counts = count_value_transitions(rs, column=column)
     max_count = max(edge_counts.values(), default=0)
     for (src, dst), count in edge_counts.items():
@@ -100,8 +109,8 @@ def cluster_transition_network(
 def show_cluster_transition_network(
     rs: RhythmicSegments,
     column: str,
-    min_transitions=0,
-    ignore=["-1"],
+    min_transitions: int = 0,
+    ignore: Optional[list[str]] = None,
     *,
     ax: Optional[Axes] = None,
     show_labels: bool = False,
@@ -136,8 +145,11 @@ def show_cluster_transition_network(
 
 
 def clustered_pattern_duration_plot(
-    rs, min_cluster_size=10, min_transitions=15, **patdur_kws
-):
+    rs: RhythmicSegments,
+    min_cluster_size: int = 10,
+    min_transitions: int = 15,
+    **patdur_kws: Any,
+) -> sns.JointGrid:
     """Plot patterns/durations colored by HDBSCAN clusters plus transition graph.
 
     Parameters

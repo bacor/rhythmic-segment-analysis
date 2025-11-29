@@ -2,12 +2,14 @@
 
 import os
 
+from typing import Optional, Union
+
 import pandas as pd
 import numpy as np
 from rhythmic_segments import RhythmicSegments
 
 
-def get_data_directory(subdirectory=None):
+def get_data_directory(subdirectory: Optional[str] = None) -> str:
     """Resolve the shared CSS data directory from ``SHARED_DATA_DIR``.
 
     Parameters
@@ -31,7 +33,7 @@ def get_data_directory(subdirectory=None):
 
 DATA_DIR = get_data_directory()
 
-ALL_INSTRUMENTS = [
+ALL_INSTRUMENTS: list[str] = [
     "Clave",
     "Bass ",
     "Guitar",
@@ -45,7 +47,7 @@ ALL_INSTRUMENTS = [
 ]
 
 
-def load_metre_data(song_id, data_dir=DATA_DIR):
+def load_metre_data(song_id: str, data_dir: str = DATA_DIR) -> pd.DataFrame:
     """Load the raw metre annotations for a given song id.
 
     Parameters
@@ -60,7 +62,7 @@ def load_metre_data(song_id, data_dir=DATA_DIR):
     return pd.read_csv(f"{dir}/{fn}", index_col=0)
 
 
-def load_metres(metadata, data_dir=DATA_DIR):
+def load_metres(metadata: pd.DataFrame, data_dir: str = DATA_DIR) -> pd.DataFrame:
     """Compute mean cycle and pulse durations for each song in the metadata.
 
     Parameters
@@ -85,7 +87,9 @@ def load_metres(metadata, data_dir=DATA_DIR):
     return metres
 
 
-def load_metadata(path="metadata.csv", data_dir=DATA_DIR):
+def load_metadata(
+    path: Union[str, os.PathLike[str]] = "metadata.csv", data_dir: str = DATA_DIR
+) -> pd.DataFrame:
     """Load CSS metadata and join per-song metre stats.
 
     Parameters
@@ -101,7 +105,7 @@ def load_metadata(path="metadata.csv", data_dir=DATA_DIR):
     return metadata.join(metres)
 
 
-def load_segments(song_num, data_dir=DATA_DIR):
+def load_segments(song_num: int, data_dir: str = DATA_DIR) -> RhythmicSegments:
     """Load rhythmic segments for all instruments in a single song.
 
     Parameters
@@ -141,7 +145,7 @@ def load_segments(song_num, data_dir=DATA_DIR):
     return RhythmicSegments.concat(*rss)
 
 
-def load_rhythmic_segments(data_dir=DATA_DIR):
+def load_rhythmic_segments(data_dir: str = DATA_DIR) -> RhythmicSegments:
     """Load rhythmic segments for all CSS songs and concatenate them.
 
     Parameters

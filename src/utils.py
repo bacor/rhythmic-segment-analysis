@@ -1,9 +1,11 @@
 """Miscellaneous helpers for paths, matplotlib styling, and figures."""
 
+from __future__ import annotations
+
 import os
 import json
 from pathlib import Path
-from typing import Dict, Union
+from typing import Any, Dict, Optional, Tuple, Union
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
@@ -17,7 +19,7 @@ DEFAULT_STYLE = CUR_DIR / "helvetica.mplstyle"
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
-def get_data_directory(subdirectory=None):
+def get_data_directory(subdirectory: Optional[str] = None) -> str:
     """Resolve the shared data directory from ``SHARED_DATA_DIR`` env var.
 
     Parameters
@@ -39,7 +41,7 @@ def get_data_directory(subdirectory=None):
     return data_dir
 
 
-def show_readme(data_dir, filename="README.md"):
+def show_readme(data_dir: Union[str, Path], filename: str = "README.md") -> None:
     """Render a README from the given data directory in a notebook.
 
     Parameters
@@ -58,7 +60,7 @@ def show_readme(data_dir, filename="README.md"):
 
 def load_synthetic_intervals(
     path: Union[str, Path] = DATA_DIR / "synthetic-intervals.json",
-):
+) -> Any:
     """Load cached synthetic intervals from disk.
 
     Parameters
@@ -71,7 +73,9 @@ def load_synthetic_intervals(
         return json.load(f)
 
 
-def savefig(name: Union[str, Path], refresh: bool = False, dpi=300, **kws):
+def savefig(
+    name: Union[str, Path], refresh: bool = False, dpi: int = 300, **kws: Any
+) -> None:
     """Save a figure as PDF and PNG in ``figures/``.
 
     Parameters
@@ -98,8 +102,15 @@ def savefig(name: Union[str, Path], refresh: bool = False, dpi=300, **kws):
 
 
 def subplot_title(
-    index, title, ha="left", x=0, fontsize=10, fontweight="bold", ax=None, **title_kws
-):
+    index: int,
+    title: str,
+    ha: str = "left",
+    x: float = 0,
+    fontsize: int = 10,
+    fontweight: str = "bold",
+    ax: Optional[plt.Axes] = None,
+    **title_kws: Any,
+) -> plt.Text:
     """Prefix a subplot title with a lettered label (A., B., ...).
 
     Parameters
@@ -125,7 +136,12 @@ def subplot_title(
     )
 
 
-def subplots_grid(N, ratios=(3, 3), max_ncols=3, **kws):
+def subplots_grid(
+    N: int,
+    ratios: Tuple[float, float] = (3, 3),
+    max_ncols: int = 3,
+    **kws: Any,
+) -> tuple[plt.Figure, np.ndarray]:
     """Create a grid of subplots sized by ``ratios`` with limited columns.
 
     Parameters
@@ -150,13 +166,13 @@ def subplots_grid(N, ratios=(3, 3), max_ncols=3, **kws):
     )
 
 
-def set_mpl_style(style_path: Union[str, Path, None] = None):
+def set_mpl_style(style_path: Union[str, Path, None] = None) -> None:
     """Apply the repo's default Matplotlib style (Helvetica) or a custom one."""
     path = Path(style_path) if style_path is not None else DEFAULT_STYLE
     plt.style.use(path)
 
 
-def set_figsize_cm(width_cm: float, height_cm: float):
+def set_figsize_cm(width_cm: float, height_cm: float) -> None:
     """Set the current figure size in centimeters."""
     plt.gcf().set_size_inches(width_cm / 2.54, height_cm / 2.54)
 
