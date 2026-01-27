@@ -126,7 +126,7 @@ This distance is known as the \emph{taxicab} distance, but we will refer to it a
 
 Two segments $(0.1, 0.2, 0.1)$ and $(2, 4, 2)$ can have a different duration, but still form the same rhythmical \emph{pattern}.
 That pattern can be expressed equivalently by either the \emph{ratios} $1 : 2 : 1$ or by a normalized vector $(0.25, 0.5, 0.25)$ containing the relative durations of all intervals.
-The $(n-1)$-dimensional \emph{simplex} $\Delta^{n-1}$ is exactly the space of nonnegative and normalized vectors:
+The $(n-1)$-dimensional \emph{simplex} $\Delta^{n-1}$ is exactly the space of nonnegative and normalized vectors
 \begin{align}
   \Delta^{n-1}
   = \{ \vx \in \RR_{\ge 0}^n: x_1 + \dots + x_n = 1\}.
@@ -145,7 +145,7 @@ Therefore, $\tfrac{1}{2}\|\vp-\vq\|_1 = \tfrac{1}{2} (|0-1| + |1 - 0|) = 1$.
 Every segment $\vx$ can be uniquely decomposed into a pattern $\vp = \vx / \|\vx\|_1$ and a duration $d = \|\vx\|_1$.
 Figure \ref{fig:coordinate-transform} illustrates that you can think of this as a coordinate transform to the point $(p, d)$ in the \emph{pattern-duration space} $\Delta^{n-1} \times \RR_{>0}$.
 Conversely, multiplying a pattern by its duration moves back to the original space.
-Formally, the function $\Phi$ takes care of all this:
+Formally, this is taken care of by the function
 \begin{align}
   \Phi(\vx) = \left(\frac{\vx}{\|\vx\|_1}, \;\; \|\vx\|_1\right), \qquad
   \Phi^{-1}(\vp, d) = d\cdot \vp
@@ -167,13 +167,13 @@ And so a pattern—a point on the simplex—specifies a direction as a point on 
 In short, the pattern gives a direction and the duration is the radius.
 
 
-Knowing how to move between segment space and pattern-duration space, we can pull the taxicab distance from the segment space to define the \emph{pattern-duration distance $d_{pd}$} on the pattern-duration space:
+Knowing how to move between segment space and pattern-duration space, we can pull the taxicab distance from the segment space to define the \emph{pattern-duration distance $d_{pd}$} on the pattern-duration space as
 \begin{align}
   d_{pd}\Big((\vp, d), (\vq, e)\Big)
-  = \|d\vp - e\vq\|_1
+  = \|d\vp - e\vq\|_1.
 \end{align}
 This distance plays well with the underlying distances. 
-If two pattern-duration pairs share their patterns but not their durations, their distance is the absolute duration difference:
+If two pattern-duration pairs share their patterns but not their durations, their distance is the absolute duration difference
 \begin{align}
   % d_{pd}\Big((\vp, d), (\vp, e)\Big)
   \|d\vp - e\vp\|_1
@@ -182,7 +182,7 @@ If two pattern-duration pairs share their patterns but not their durations, thei
   = |d-e|,
 \end{align}
 where we use that patterns are normalized, so that $\|\vp\|_1=1$.
-Conversely, if two pairs have the same duration $e$, but different patterns, their distance reduces to the distance between the patterns multiplied by twice the duration:
+Conversely, if two pairs have the same duration $e$, but different patterns, their distance reduces to the distance between the patterns multiplied by twice the duration
 \begin{align}
   % d_{pd}\Big((\vp, e), (\vq, e)\Big)
   \|d \vp - d \vq\|_1
@@ -289,7 +289,7 @@ Although we define it for patterns, we can naturally extend the definition to se
 
 
 \begin{definition}
-  The \emph{anisochrony} of a pattern $\vp$ is the normalized distance from isochrony, represented by the centroid $\vc$:
+  The \emph{anisochrony} of a pattern $\vp$ is the normalized distance from isochrony, represented by the centroid $\vc$, is defined as follows.
   \begin{align}
     \alpha(\vp)
     \; := \; \frac{n}{n-1} \cdot d_p(\vp, \vc)
