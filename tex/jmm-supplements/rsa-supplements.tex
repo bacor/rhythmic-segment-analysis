@@ -215,25 +215,25 @@ Indeed, the definition remains informal until one specifies (1) what constitutes
 
 \subsection{Integer ratios}
 
-The notion of quantal data is closely related to the presence of integer ratio rhythms—but what does the latter even mean?
+The notion of quantal data is closely related to the presence of integer-ratio rhythms—but what does the latter even mean?
 In terms of segments and patterns, there are two possible readings: (1) that \emph{patterns} cluster around integer ratios or (2) that \emph{segments} cluster around integer ratios.
 The first reading seems to be the default and is consistent with the use of ratio plots.
 I would, however, argue for the second reading.
 To explain why, I will define the two readings more explicitly, yet without completely formalizing them.
 I will assume that clusters are narrow, separated regions of high-density in the distribution;
-segments with only integer entries will be called \emph{integer segments}; and patterns of integer segments are \emph{integer ratio patterns}. 
+segments with only integer entries will be called \emph{integer segments}; and patterns of integer segments are \emph{integer-ratio patterns}. 
 The first reading amounts to the following.
 
 
 \begin{definition}
-  Rhythmic data has \emph{integer ratio pattern clusters} if the pattern distribution is a mixture of clusters close to integer ratio patterns.
+  Rhythmic data has \emph{integer-ratio pattern clusters} if the pattern distribution is a mixture of clusters close to integer-ratio patterns.
 \end{definition}
 
-This means that a ratio plot should show clear clustering around integer ratio patterns.
+This means that a ratio plot should show clear clustering around integer-ratio patterns.
 But in the main text, I pointed to a problem: distinct \emph{segment} clusters can create overlapping pattern clusters.
 Figure \ref{fig:flat-ratio-plot} illustrates this point. 
 It shows a repeated rhythm that is designed to traverse very similar patterns, resulting in an almost flat ratio plot, or in any case one that underestimates the number of segment clusters.
-And for that reason, I would argue for defining the presence of integer ratio rhythms in terms of the segments, not the patterns.
+And for that reason, I would argue for defining the presence of integer-ratio rhythms in terms of the segments, not the patterns.
 
 \begin{figure}
   \centering%
@@ -249,23 +249,23 @@ And for that reason, I would argue for defining the presence of integer ratio rh
 
 
 \begin{definition}
-  Rhythmic data has \emph{integer ratio segment clusters} if there is a fixed number $q$ such that segment distribution is a mixture of clusters, each close to $q \cdot \vectm$ for some integer segment $\vectm$.
+  Rhythmic data has \emph{integer-ratio segment clusters} if there is a fixed number $q$ such that segment distribution is a mixture of clusters, each close to $q \cdot \vectm$ for some integer segment $\vectm$.
 \end{definition}
 
-In pattern-duration space, integer ratio segment clusters are clusters with integer ratio patterns and whose durations are all integer multiples of the same interval $q$.
+In pattern-duration space, integer-ratio segment clusters are clusters with integer-ratio patterns and whose durations are all integer multiples of the same interval $q$.
 As may be clear by now, this is very closely tied to the concept of quantality: they are equivalent.
 
 
 \begin{theorem}
-  A dataset has integer ratio segment clusters if and only if it is quantal.
+  A dataset has integer-ratio segment clusters if and only if it is quantal.
 \end{theorem}
 
 \begin{proof}[Proof sketch]
-  Suppose a dataset has integer ratio segment clusters, so that each cluster is close to $q \vectm$ for some integer segment $\vectm$.
+  Suppose a dataset has integer-ratio segment clusters, so that each cluster is close to $q \vectm$ for some integer segment $\vectm$.
   Projecting on any coordinate gives the interval distribution, which will have a cluster close to the corresponding quantum multiple. 
   This implies the dataset is quantal.
   Conversely, if the dataset is quantal all intervals are of the form $q m + \delta$ for some integer $m$ and a small $\delta$. 
-  That implies that each segment is close to $q \vectm$ for some integer segment $\vectm$ and we find integer ratio segment clustering.
+  That implies that each segment is close to $q \vectm$ for some integer segment $\vectm$ and we find integer-ratio segment clustering.
 \end{proof}
 
 This suggests that the presence of integer ratios and quantality are two sides of the same coin, which means that one can replace questions about integer ratios with questions about quantality.

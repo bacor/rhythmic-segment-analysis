@@ -77,7 +77,7 @@ When paired with a cluster transition network, it intuitively reveals regulariti
 Moreover, the framework generalizes two common measures of rhythmic structure: rhythm ratios and the normalized pairwise variability index (nPVI). 
 In particular, nPVI can be reconstructed as the average distance from isochrony, and I propose a more general measure of anisochrony to replace it. 
 Finally, the novel concept of quantal data proves to be fruitful. 
-Referring to intervals that cluster around integer multiples of a smallest duration, it may shed light on wider debates regarding small integer ratio rhythms. 
+Referring to intervals that cluster around integer multiples of a smallest duration, it may shed light on wider debates regarding small-integer-ratio rhythms. 
 The presentation in the paper is relatively informal, a more formal presentation is given in the Online Supplement.
 \end{abstract}
 
@@ -276,7 +276,7 @@ One synthetic dataset is of such special interest as a baseline for musical rhyt
 I will call rhythmic data \emph{quantal} when the interval distribution consists of clusters close to integer multiples of a smallest temporal unit, the \emph{quantum}. 
 In such data, time is approximately discrete: events roughly coincide with a pulse or grid corresponding to the quantum. 
 As a result, in a quantal dataset all intervals are approximately related by integer ratios. 
-(Stronger still, quantality is equivalent to the presence of integer ratio segment clusters; see \suppl{1.4}.)
+(Stronger still, quantality is equivalent to the presence of integer-ratio segment clusters; see \suppl{1.4}.)
 
 There are ample candidates for the quantum (beat, subdivision, tatum, and so on), but I choose a neutral, domain-general term to avoid theoretical baggage and because, depending on the data, the quantum could be any of those. 
 Also note that I avoid the term quantization (discretizing continuous intervals to a grid) because the notions are not equivalent: quantal data need not be quantized, but quantized data are always quantal. 
@@ -362,7 +362,7 @@ Such a boundary appears when the dataset has a shortest interval, perhaps result
 Any segment below this boundary must contain an interval shorter than the minimum duration, which is impossible by definition. 
 Similarly, one can find a \emph{maximum-duration boundary} at the top (dotted line in Figure~\ref{fig:plots}C-1).
 
-Third, quantal data with short intervals (i.e. small integer multiples) tends to produce clusters along the minimum-duration boundary (see Figure~\ref{fig:plots}C-2 and Figure~\ref{fig:cluster-transition-network}).
+Third, quantal data with short intervals (i.e. small-integer multiples) tends to produce clusters along the minimum-duration boundary (see Figure~\ref{fig:plots}C-2 and Figure~\ref{fig:cluster-transition-network}).
 After all, quantal data has a minimum duration by definition: the quantum. 
 Its minimum-duration boundary contains segments in which one of the intervals equals one quantum (and the other some multiple of it). 
 Fourth, if there is a minimum duration, patterns far from isochrony (e.g. $0.1$ or $0.9$) can necessarily only appear in segments with a relatively long duration, explaining why the scatter plots often widen toward the top. 
@@ -400,7 +400,7 @@ To create the network in Figure~\ref{fig:cluster-transition-network} segment clu
 Clusters are then used as nodes in a network, and edges are added between two clusters whenever segments from the two clusters succeed one another in the dataset. 
 Edges are weighted by transition frequency and infrequent ones ($<15$) are pruned. 
 Since this is a quantal dataset, the duration has been rescaled to show multiples of the quantum $q = 0.5$s. 
-This allows us to annotate all integer ratio segments (e.g. $2 : 4$ indicates the segment $(2q, 4q)$) and highlights that clusters correspond to small integer ratio patterns—as is to be expected of a quantal dataset. 
+This allows us to annotate all integer-ratio segments (e.g. $2 : 4$ indicates the segment $(2q, 4q)$) and highlights that clusters correspond to small-integer-ratio patterns—as is to be expected of a quantal dataset. 
 
 At the top of Figure~\ref{fig:cluster-transition-network} we see a deterministic section of the rhythm, starting from around $2 : 3$. 
 By reading only the second number in the annotated ratios, one can work out that the deterministic section follows a rhythm of the form $3:3:2:4:1$. 
@@ -431,7 +431,7 @@ So far, I have only presented synthetic rhythmic data.
 To illustrate a more realistic use case of the pattern-duration plots, I turn to the IEMP Cuban salsa and son dataset \citep{Clayton2021EMR,Poole2019}.
 The corpus consists of five songs in the styles of son and salsa, performed by the Cuban band Asere and contains automatically extracted onset annotations for all instruments separately. 
 A length-2 pattern-duration plot was made using those onsets. 
-I computed the 16th-note duration (the quantum) from the metrical cycle annotations, which allowed me to annotate integer ratio segments as before. 
+I computed the 16th-note duration (the quantum) from the metrical cycle annotations, which allowed me to annotate integer-ratio segments as before. 
 HDBSCAN is used to cluster segments, with a minimum of 10 segments per cluster. 
 This clustering method can decide not to assign a segment to a cluster. 
 Such segments are marked with gray plus signs and ignored when computing the network.
@@ -586,7 +586,7 @@ Throughout the paper, the quantum was taken to be constant, which implies a cons
 This is an unrealistic assumption for a lot of music, and so future work could consider expressing segment durations in terms of a time-varying quantum. 
 After all, the concept itself seems productive. 
 Pattern-duration plots, for example, are more insightful when all integer-ratio segments are annotated, which requires a quantum. 
-Indeed, quantality turns out to be very closely connected to the presence of small integer ratio rhythms—a topic of much recent \emph{perceptual} research \citep{Jacoby2024NatHumBehav,Jacoby2017CurrBiol,Ravignani2018FrontComputNeurosci}.
+Indeed, quantality turns out to be very closely connected to the presence of small-integer-ratio rhythms—a topic of much recent \emph{perceptual} research \citep{Jacoby2024NatHumBehav,Jacoby2017CurrBiol,Ravignani2018FrontComputNeurosci}.
 The two notions appear to be two sides of the same coin. 
 This suggests that questions about integer ratios can be reformulated as questions about quantality, and it connects the present work to fundamental questions about music.
 
