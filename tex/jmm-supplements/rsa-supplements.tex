@@ -133,7 +133,8 @@ The $(n-1)$-dimensional \emph{simplex} $\Delta^{n-1}$ is exactly the space of no
 \end{align}
 We will equip the simplex with the \emph{total variation distance}, which is half the taxicab distance, and will refer to it as the \emph{pattern distance} $d_p$.
 This distance is normalized, so that the total variation distance between any two corners of the simplex is 1.\footnote{%
-  Two corners $\vp$ and $\vq$ have all-zero coordinates, except for a single 1 in different places. Therefore, $\tfrac{1}{2}\|\vp-\vq\|_1 = \tfrac{1}{2} (|0-1| + |1 - 0|) = 1$.
+  Two corners $\vp$ and $\vq$ have all-zero coordinates, except for a single 1 in different places. 
+Therefore, $\tfrac{1}{2}\|\vp-\vq\|_1 = \tfrac{1}{2} (|0-1| + |1 - 0|) = 1$.
 }
 
 \begin{definition} For $n\ge 2$, the \emph{pattern space} $\mathcal{P}^n$ is the simplex $\Delta^{n-1}$ equipped with the \emph{total variation distance} $d_p(\vp, \vq) = \tfrac{1}{2}\|\vp - \vq\|_1$.
@@ -153,11 +154,13 @@ Formally, the function $\Phi$ takes care of all this:
 \begin{figure}
   \centering
   \includegraphics[width=.8\textwidth]{../../figures/coordinate-transform.pdf}
-  \caption{A coordinate transform turns the phase space into a pattern-duration space. \label{fig:coordinate-transform}}
+  \caption{A coordinate transform turns the phase space into a pattern-duration space. 
+\label{fig:coordinate-transform}}
 \end{figure}
 
 Geometrically, the pattern-duration decomposition described here can be understood as the \emph{taxicab equivalent of spherical coordinates}.
-A radial-angular decomposition (the more general term for spherical coordinates) locates a point using a radius and a direction. The direction is specified by several angles that determine a point on the unit ball.
+A radial-angular decomposition (the more general term for spherical coordinates) locates a point using a radius and a direction. 
+The direction is specified by several angles that determine a point on the unit ball.
 Since segments are non-negative sequences, we are only concerned with the non-negative part of $\RR^n$ (i.e. the non-negative orthant).
 In taxicab geometry, the unit ball on that part of the space coincides precisely with a simplex.
 And so a pattern—a point on the simplex—specifies a direction as a point on the unit ball, while the radius under the $L_1$ norm equals the duration of a segment.
@@ -169,7 +172,8 @@ Knowing how to move between segment space and pattern-duration space, we can pul
   d_{pd}\Big((\vp, d), (\vq, e)\Big)
   = \|d\vp - e\vq\|_1
 \end{align}
-This distance plays well with the underlying distances. If two pattern-duration pairs share their patterns but not their durations, their distance is the absolute duration difference:
+This distance plays well with the underlying distances. 
+If two pattern-duration pairs share their patterns but not their durations, their distance is the absolute duration difference:
 \begin{align}
   % d_{pd}\Big((\vp, d), (\vp, e)\Big)
   \|d\vp - e\vp\|_1
@@ -190,7 +194,9 @@ The factor two compensates for the fact that the total variation distance is hal
 
 \subsection{Quantal data}
 
-If musical rhythm adheres to a grid, there is a smallest interval, a 'time quantum', of which all intervals are (integer) multiples. The interval distributions may accordingly show clustering around those quantum multiples, as in Figure~\ref{fig:interval-distributions}A, B, and F. It motivates the following definition.
+If musical rhythm adheres to a grid, there is a smallest interval, a 'time quantum', of which all intervals are (integer) multiples. 
+The interval distributions may accordingly show clustering around those quantum multiples, as in Figure~\ref{fig:interval-distributions}A, B, and F. 
+It motivates the following definition.
 
 \begin{definition}
   A rhythmic dataset is \emph{quantal} when the interval distribution is a mixture of clusters close to integer multiples of a fixed \emph{quantum}.
@@ -215,7 +221,8 @@ The first reading seems to be the default and is consistent with the use of rati
 I would, however, argue for the second reading.
 To explain why, I will define the two readings more explicitly, yet without completely formalizing them.
 I will assume that clusters are narrow, separated regions of high-density in the distribution;
-segments with only integer entries will be called \emph{integer segments}; and patterns of integer segments are \emph{integer ratio patterns}. The first reading amounts to the following.
+segments with only integer entries will be called \emph{integer segments}; and patterns of integer segments are \emph{integer ratio patterns}. 
+The first reading amounts to the following.
 
 
 \begin{definition}
@@ -224,14 +231,18 @@ segments with only integer entries will be called \emph{integer segments}; and p
 
 This means that a ratio plot should show clear clustering around integer ratio patterns.
 But in the main text, I pointed to a problem: distinct \emph{segment} clusters can create overlapping pattern clusters.
-Figure \ref{fig:flat-ratio-plot} illustrates this point. It shows a repeated rhythm that is designed to traverse very similar patterns, resulting in an almost flat ratio plot, or in any case one that underestimates the number of segment clusters.
+Figure \ref{fig:flat-ratio-plot} illustrates this point. 
+It shows a repeated rhythm that is designed to traverse very similar patterns, resulting in an almost flat ratio plot, or in any case one that underestimates the number of segment clusters.
 And for that reason, I would argue for defining the presence of integer ratio rhythms in terms of the segments, not the patterns.
 
 \begin{figure}
   \centering%
   \includegraphics[width=.7\textwidth]{../../figures/flat-ratio-plot.png}
   \caption{%
-    Overlapping segment clusters can distort the number of rhythmic categories in ratio plots. A repeated rhythm traverses proximate ratios such as 2:7 and 2:6. When projected on the horizontal axes, some of these clusters disappear (top). Kernel density plots are sensitive to the bandwidth parameter; the dotted and dashed lines show kernel density estimates with ever smaller bandwidths.
+    Overlapping segment clusters can distort the number of rhythmic categories in ratio plots. 
+    A repeated rhythm traverses proximate ratios such as 2:7 and 2:6. 
+    When projected on the horizontal axes, some of these clusters disappear (top). 
+    Kernel density plots are sensitive to the bandwidth parameter; the dotted and dashed lines show kernel density estimates with ever smaller bandwidths.
     \label{fig:flat-ratio-plot}
   }
 \end{figure}
@@ -251,8 +262,10 @@ As may be clear by now, this is very closely tied to the concept of quantality: 
 
 \begin{proof}[Proof sketch]
   Suppose a dataset has integer ratio segment clusters, so that each cluster is close to $q \vectm$ for some integer segment $\vectm$.
-  Projecting on any coordinate gives the interval distribution, which will have a cluster close to the corresponding quantum multiple. This implies the dataset is quantal.
-  Conversely, if the dataset is quantal all intervals are of the form $q m + \delta$ for some integer $m$ and a small $\delta$. That implies that each segment is close to $q \vectm$ for some integer segment $\vectm$ and we find integer ratio segment clustering.
+  Projecting on any coordinate gives the interval distribution, which will have a cluster close to the corresponding quantum multiple. 
+  This implies the dataset is quantal.
+  Conversely, if the dataset is quantal all intervals are of the form $q m + \delta$ for some integer $m$ and a small $\delta$. 
+  That implies that each segment is close to $q \vectm$ for some integer segment $\vectm$ and we find integer ratio segment clustering.
 \end{proof}
 
 This suggests that the presence of integer ratios and quantality are two sides of the same coin, which means that one can replace questions about integer ratios with questions about quantality.
@@ -262,14 +275,17 @@ This suggests that the presence of integer ratios and quantality are two sides o
 In this section we define a measure of \emph{anisochrony} and show how it relates to the normalized pairwise variability index (nPVI).
 First, some notation and properties.
 Let the \emph{centroid} of a simplex be written as $\vc = (\tfrac{1}{n}, \dots, \tfrac{1}{n})$.
-The distance from any corner $\vp$ to the centroid is $(n-1)/n$. To see this, note that $\vp$ contains only zeros and a single one. It follows that the distance to the centroid is
+The distance from any corner $\vp$ to the centroid is $(n-1)/n$. 
+To see this, note that $\vp$ contains only zeros and a single one. 
+It follows that the distance to the centroid is
 \begin{align}
   \tfrac{1}{2}\Big((n-1) \cdot |0 - \tfrac{1}{n}| +
   |1-\tfrac{1}{n}|\Big)
   = \tfrac{1}{2}\Big(\frac{n-1}{n} + \frac{n-1}{n}\Big)
   = \frac{n-1}{n}.
 \end{align}
-We can use this to define the anisochrony of a pattern as the normalized distance from isochrony (i.e. the centroid). Although we define it for patterns, we can naturally extend the definition to segments.
+We can use this to define the anisochrony of a pattern as the normalized distance from isochrony (i.e. the centroid). 
+Although we define it for patterns, we can naturally extend the definition to segments.
 
 
 \begin{definition}
@@ -292,7 +308,8 @@ To that end, note that when two positive numbers $a$ and $b$ sum to one, we have
   |a-b|
   = |a-\tfrac{1}{2}| + |b-\tfrac{1}{2}|.
 \end{align}
-The first property follows directly from $a=b-1$. For the second one, write
+The first property follows directly from $a=b-1$. 
+For the second one, write
 $|a-b|
   = |a-(1-a)|
   = |2a-1|
@@ -336,22 +353,37 @@ The previous result almost immediately shows that the nPVI is proportional to th
 
 \section{Synthetic data}
 
-The main text compares visualizations of three types of synthetic rhythmic data. These supplements include some additional plots for three more synthetic datasets.
+The main text compares visualizations of three types of synthetic rhythmic data. 
+These supplements include some additional plots for three more synthetic datasets.
 Interval distributions of all datasets are shown in Figure~\ref{fig:interval-distributions}.
 
 \begin{itemize}
-  \item \textbf{Uniform quantal}. Integers $k$ were sampled uniformly between 1 and 11. Gaussian noise $\epsilon \sim \text{Normal}(0, 0.1)$ was added, and the result scaled by a quantum of $0.2$ to get intervals $i = 0.2 (k + \epsilon)$.
-  \item \textbf{Geometric quantal}. Integers $k$ were sampled from a geometric distribution with parameter $p=0.5$ to favour small integers. This results in intervals $i=0.2(k+\epsilon)$ with $\epsilon \sim \text{Normal}(0, 0.1)$ as before.
-  \item \textbf{Uniform}. Intervals were sampled uniformly between 0.2 and 2.
-  \item \textbf{Normal}. Intervals were sampled from a $\text{Normal}(1, 0.5)$ distribution, truncated at 0, so only positive samples were retained.
-  \item \textbf{Isochrony}. Idem, but with smaller variance: using $\text{Normal}(0, 0.05)$.
-  \item \textbf{Repeated}. The template $(1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 3, 3, 2, 4)$ of integer intervals was repeated (see Figure~\ref{fig:repeated-rhythm}), Gaussian noise $\epsilon \sim \text{Normal}(0, 0.1)$ was added as before, and the result was scaled by a quantum of 0.5 to get intervals $i=0.5(k + \epsilon)$.
+  \item \textbf{Uniform quantal}. 
+  Integers $k$ were sampled uniformly between 1 and 11. 
+  Gaussian noise $\epsilon \sim \text{Normal}(0, 0.1)$ was added, and the result scaled by a quantum of $0.2$ to get intervals $i = 0.2 (k + \epsilon)$.
+  
+  \item \textbf{Geometric quantal}. 
+  Integers $k$ were sampled from a geometric distribution with parameter $p=0.5$ to favour small integers. 
+  This results in intervals $i=0.2(k+\epsilon)$ with $\epsilon \sim \text{Normal}(0, 0.1)$ as before.
+  
+  \item \textbf{Uniform}. 
+  Intervals were sampled uniformly between 0.2 and 2.
+  
+  \item \textbf{Normal}. 
+  Intervals were sampled from a $\text{Normal}(1, 0.5)$ distribution, truncated at 0, so only positive samples were retained.
+  
+  \item \textbf{Isochrony}. 
+  Idem, but with smaller variance: using $\text{Normal}(0, 0.05)$.
+  
+  \item \textbf{Repeated}. 
+  The template $(1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 3, 3, 2, 4)$ of integer intervals was repeated (see Figure~\ref{fig:repeated-rhythm}), Gaussian noise $\epsilon \sim \text{Normal}(0, 0.1)$ was added as before, and the result was scaled by a quantum of 0.5 to get intervals $i=0.5(k + \epsilon)$.
 \end{itemize}
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{../../scores/repeated-rhythm.pdf}
   \caption{
-    The repeated dataset consists of repetitions of this rhythm, with some noise added. The reader may recognize the first two bars as the backbone of Steve Reichs \emph{Clapping Music}.
+    The repeated dataset consists of repetitions of this rhythm, with some noise added. 
+    The reader may recognize the first two bars as the backbone of Steve Reichs \emph{Clapping Music}.
     \label{fig:repeated-rhythm}
   }
 \end{figure}
@@ -381,7 +413,8 @@ Interval distributions of all datasets are shown in Figure~\ref{fig:interval-dis
 \begin{figure}[h!]\centering
   \includegraphics[width=.7\textwidth]{../../figures/plot-types/raster-plots.png}
   \caption{%
-    Raster plots for synthetic rhythmic data. Every segment is plotted using two points: the shorter of the two intervals on the left in blue and the longer one on the right in orange.
+    Raster plots for synthetic rhythmic data. 
+    Every segment is plotted using two points: the shorter of the two intervals on the left in blue and the longer one on the right in orange.
     Segments are sorted vertically by their duration, with shorter segments at the bottom.
     \label{fig:raster-plots}%
   }
@@ -398,7 +431,9 @@ Interval distributions of all datasets are shown in Figure~\ref{fig:interval-dis
 \begin{figure}[h!]\centering
   \includegraphics[width=.7\textwidth]{../../figures/plot-types/phase-plots-trajectory.png}
   \caption{
-    Line phase plots of synthetic rhythmic data. Similar to Figure~\ref{fig:phase-plot-scatter}, but now with a trajectory connecting successive segments. The trajectory can obfuscate the clustering structure, but in data with recurrent regularities it produces distinct geometric shapes (e.g. subfigure F).
+    Line phase plots of synthetic rhythmic data. 
+    Similar to Figure~\ref{fig:phase-plot-scatter}, but now with a trajectory connecting successive segments. 
+    The trajectory can obfuscate the clustering structure, but in data with recurrent regularities it produces distinct geometric shapes (e.g. subfigure F).
     \label{fig:phase-plot-trajectory}%
   }
 \end{figure}
@@ -430,7 +465,8 @@ The main text shows pattern-duration plots of four instruments from the IEMP Cub
 The metrical cycles of have been annotated and allow us to work out the 16th note duration; the cycle distribution is shown in Figure~\ref{fig:iemp-css-meter}.
 
 % \paragraph{Pattern-duration plots per instrument}
-Pattern duration plots of all instruments in song 1 are shown in Figure~\ref{fig:iemp-css-song1}. Plots for instruments in other songs can be found in the repository alongside the notebooks used to generate them.
+Pattern duration plots of all instruments in song 1 are shown in Figure~\ref{fig:iemp-css-song1}. 
+Plots for instruments in other songs can be found in the repository alongside the notebooks used to generate them.
 
 
 \begin{figure} \centering
@@ -446,7 +482,8 @@ Pattern duration plots of all instruments in song 1 are shown in Figure~\ref{fig
 \begin{figure}\centering
   \includegraphics[height=.95\textheight]{../../figures/iemp-css/song-1-instruments.png}
   \caption{%
-    Pattern-duration plots of all instruments in song 1. See main text for details.
+    Pattern-duration plots of all instruments in song 1. 
+    See main text for details.
     \label{fig:iemp-css-song1}
   }
 
