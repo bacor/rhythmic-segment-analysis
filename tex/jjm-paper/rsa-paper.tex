@@ -53,7 +53,7 @@
 
 % Replace the title below by your title. Only the first letter and proper names are capitalized.
 \title{Rhythmic segment analysis:\\
-Conceptualizing, visualizing and measuring rhythmic data}
+Conceptualizing, visualizing, and measuring rhythmic data}
 
 \author{
 % \name{Bas Cornelissen\textsuperscript{a}$^{\ast}$\thanks{$^\ast$Corresponding author. Email: mail@bascornelissen.nl}}
@@ -96,7 +96,7 @@ The starting point for this paper is a simple observation. All of these studies 
 
 This paper, in short, addresses how to (1) conceptualize, (2) visualize, and (3) measure regularities in rhythmic data. The approach I put forward, \emph{rhythmic segment analysis}, is summarized in Figure~\ref{fig:rsa}. It conceptualizes rhythmic data in terms of its \emph{segments}: fixed-length groups of consecutive intervals, like interval pairs or triplets such as $(0.2, 0.2, 0.4)$. Segments will be decomposed into a \emph{duration} and a \emph{pattern}, the latter being the ratios between the intervals in a segment (e.g. $1 : 1 : 2$). Multiple existing plotting methods turn out to visualize segments or patterns, and I propose a more effective method: the pattern-duration plot. When overlaid with a network summarizing segment transitions, it can intuitively reveal rhythmic regularities in a dataset. Finally, this framework naturally incorporates two measures of rhythmic regularity. First, rhythm ratios correspond directly to length-2 patterns. Second, the nPVI naturally emerges as an average distance from isochrony, and leads to a more general (and normalized) measure of anisochrony that can replace the nPVI.
 
-The strength of the proposed framework is its simplicity and generality. Rhythmic segment analysis naturally ties together existing work, can help clarify our reasoning about rhythmic data, and is straightforward to implement: (1) split intervals into fixed-length segments, (2) sum them and then (3) normalize the segments to get durations and patterns. A small Python package, \anonymized{},
+The strength of the proposed framework is its simplicity and generality. Rhythmic segment analysis naturally ties together existing work, can help clarify our reasoning about rhythmic data, and is straightforward to implement: (1) split intervals into fixed-length segments, (2) sum them, and then (3) normalize the segments to get durations and patterns. A small Python package, \anonymized{},
 %\emph{rhythmic-segments},
 which I release alongside this paper simplifies things even further, especially when it comes to handling metadata. Installation instructions and extensive documentation are available online, as are all the data and code discussed in this paper.\footnote{%
   The package \anonymized{}
@@ -205,7 +205,7 @@ I will use three synthetic datasets. First, intervals sampled uniformly between 
     \includegraphics{../../figures/synthetic-data-combined.pdf}%
   }\\
   \caption{%
-    \textbf{Length-2 segments of synthetic data visualized in four ways.} Columns show three types of synthetic rhythmic data discussed in the main text: \textbf{(1)} uniform intervals, \textbf{(2)} quantal intervals (noisy integer multiples of a pulse) and \textbf{(3)} a noisy, repeated rhythm. Raster plots \textbf{(A)} sort segments vertically by their duration; the shorter interval of each segment is plotted to the left, the longer one to the right. Phase plots \textbf{(B)} plot the first against the second interval. Pattern-duration plots \textbf{(C)} transform phase plots, mapping every diagonal line to a vertical line: the pattern is represented horizontally by the rhythm ratio and vertically by the segment. Gray lines show isochrony (diagonal in B, vertical line at $0.5$ in C), dashed and dotted lines show the minimum and maximum duration boundaries in both B and C. A ratio plot \textbf{(D)} is a marginal density plot of a pattern-duration plot.%
+    \textbf{Length-2 segments of synthetic data visualized in four ways.} Columns show three types of synthetic rhythmic data discussed in the main text: \textbf{(1)} uniform intervals, \textbf{(2)} quantal intervals (noisy integer multiples of a pulse), and \textbf{(3)} a noisy, repeated rhythm. Raster plots \textbf{(A)} sort segments vertically by their duration; the shorter interval of each segment is plotted to the left, the longer one to the right. Phase plots \textbf{(B)} plot the first against the second interval. Pattern-duration plots \textbf{(C)} transform phase plots, mapping every diagonal line to a vertical line: the pattern is represented horizontally by the rhythm ratio and vertically by the segment. Gray lines show isochrony (diagonal in B, vertical line at $0.5$ in C), dashed and dotted lines show the minimum and maximum duration boundaries in both B and C. A ratio plot \textbf{(D)} is a marginal density plot of a pattern-duration plot.%
   }
   \label{fig:plots}
   \end{center}
@@ -232,7 +232,7 @@ For example, it maps the isochronous diagonal to the vertical line r = 0.5 (Figu
 
 \subsection{Properties of pattern-duration plots}
 %————————————————————————————————————————————————
-The synthetic data illustrate some properties of pattern-duration plots. First, the plots need not be symmetric around isochrony ($r = 0.5$). This can be seen from Figure \ref{fig:plots}C-3, but an additional example may be informative. Looping the intervals $(1, 3, 9)$ with some noise will produce three clusters of segments around $(1, 3)$, $(3, 9)$ and $(9, 1)$. In a pattern-duration plot, this translates into clusters around $(0.25, 4)$, $(0.25, 12)$ and $(0.90, 10)$. The mirror images around $(0.75, 4)$, $(0.75, 12)$ and $(0.10, 10)$ are all absent. This argues against omitting half of the simplex, as in the tempo-ratio plots of \citet{Roeske2020CurrBiol}.
+The synthetic data illustrate some properties of pattern-duration plots. First, the plots need not be symmetric around isochrony ($r = 0.5$). This can be seen from Figure \ref{fig:plots}C-3, but an additional example may be informative. Looping the intervals $(1, 3, 9)$ with some noise will produce three clusters of segments around $(1, 3)$, $(3, 9)$, and $(9, 1)$. In a pattern-duration plot, this translates into clusters around $(0.25, 4)$, $(0.25, 12)$, and $(0.90, 10)$. The mirror images around $(0.75, 4)$, $(0.75, 12)$, and $(0.10, 10)$ are all absent. This argues against omitting half of the simplex, as in the tempo-ratio plots of \citet{Roeske2020CurrBiol}.
 
 Second, pattern-duration plots may show a curved \emph{minimum-duration boundary} at the bottom (dashed line in Figure~\ref{fig:plots}C-1). The empty space below the boundary maps to the empty bands next to the axes in a phase plot (Figures~\ref{fig:plots}B-1 and \ref{fig:plots}C-1). Such a boundary appears when the dataset has a shortest interval, perhaps resulting from a production or measurement constraint. Any segment below this boundary must contain an interval shorter than the minimum duration, which is impossible by definition. Similarly, one can find a \emph{maximum-duration boundary} at the top (dotted line in Figure~\ref{fig:plots}C-1).
 
