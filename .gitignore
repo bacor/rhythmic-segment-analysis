@@ -4,6 +4,9 @@ tex/out
 *.fdb_latexmk
 *.fls
 *.log
+*.blg
+*.bbl
+*.out
 .mscbackup
 
 # Python caches & environments
