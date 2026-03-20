@@ -38,6 +38,7 @@
 \newtheorem{example}[theorem]{Example}
 
 \usepackage{color}
+\newcommand{\anonymized}{{\color{red}\emph{anonymized}}}
 \newcommand{\suppl}[1]{Online Supplement §#1}
 
 \begin{document}
@@ -55,12 +56,12 @@
 Conceptualizing, visualizing, and measuring rhythmic data}
 
 \author{
-\name{Bas Cornelissen\textsuperscript{a}$^{\ast}$\thanks{$^\ast$Corresponding author. Email: mail@bascornelissen.nl}}
+% \name{Bas Cornelissen\textsuperscript{a}$^{\ast}$\thanks{$^\ast$Corresponding author. Email: mail@bascornelissen.nl}}
 %
 % @EDITOR: I hope you forgive me for adding a linebreak after the institute; improves the balance
 %
-\affil{\textsuperscript{a}Institute for Logic, Language and Computation,\\
-University of Amsterdam, Amsterdam, The~Netherlands}
+% \affil{\textsuperscript{a}Institute for Logic, Language and Computation,\\
+% University of Amsterdam, Amsterdam, The~Netherlands}
 %leave blank for production:
 \received{}
 }
@@ -123,10 +124,17 @@ Second, the nPVI naturally emerges as an average distance from isochrony, and le
 
 The strength of the proposed framework is its simplicity and generality. 
 Rhythmic segment analysis naturally ties together existing work, can help clarify our reasoning about rhythmic data, and is straightforward to implement: (1) split intervals into fixed-length segments, (2) sum them, and then (3) normalize the segments to get durations and patterns. 
-A small Python package, \emph{rhythmic-segments}, which I release alongside this paper simplifies things even further, especially when it comes to handling metadata. 
+A small Python package, \anonymized{},
+%\emph{rhythmic-segments},
+which I release alongside this paper simplifies things even further, especially when it comes to handling metadata. 
 Installation instructions and extensive documentation are available online, as are all the data and code discussed in this paper.\footnote{%
-  The package \emph{rhythmic-segments} can be installed using pip, and the documentation can be found at \url{https://bacor.github.io/rhythmic-segments}.
-  All data and code used in this paper, along with the supplementary materials, have been deposited at \url{https://doi.org/10.5281/zenodo.17753529}.
+  The package \anonymized{}
+  % \emph{rhythmic-segments} 
+  can be installed using pip, and the documentation can be found at 
+  \anonymized{}.github.io/\anonymized{}.
+  % bacor.github.io/rhythmic-segments.
+  All data and code used in this paper, along with the supplementary materials, have been deposited at doi.org/10.5281/zenodo.\anonymized{}.
+  %17753529. 
 }
 
 \begin{figure}
@@ -505,7 +513,9 @@ This means that the nPVI is $200$ times the average anisochrony, and so the nPVI
 This result moreover justifies replacing the nPVI with the anisochrony, as it more conveniently scales from $0$ to $1$. 
 Alternatively, one could flip the definition to define the isochrony as one minus the anisochrony.
 
-I first reported this result in \cite[][Chapter 8]{Cornelissen2024}, but \citet{Jadoul2025Vibration} recently reached a closely related conclusion. 
+I first reported this result in \emph{{\color{red} my doctoral dissertation (2024; anonymized)}}
+% Cornelissen (2024, ch. 8), %TODO REMOVE REF anonymous
+but \citet{Jadoul2025Vibration} recently reached a closely related conclusion. 
 They describe the nPVI as a summary statistic of rhythm ratios. 
 To show that, it suffices to express the anisochrony of a pattern $(r, s)$ solely in terms of $r$. 
 That is indeed possible: it is $2|r - 0.5|$. 
@@ -589,7 +599,8 @@ This suggests that questions about integer ratios can be reformulated as questio
 \addcontentsline{toc}{section}{Acknowledgements}
 %———————————————————————————————————————————————
 
-I would like to thank Henkjan Honing for his support of this work and for valuable feedback on the terminology and presentation.
+\anonymized{}
+% I would like to thank Henkjan Honing for his support of this work and for valuable feedback on the terminology and presentation.
 %.I thank [names] for constructive comments on previous versions of this paper.
 %I would like to thank the two anonymous reviewers and Editor [name] for \dots
 
@@ -599,7 +610,10 @@ I would like to thank Henkjan Honing for his support of this work and for valuab
 \addcontentsline{toc}{section}{Funding}
 %——————————————————————————————————————
 
-Bas Cornelissen was supported by the Dutch Research Council (NWO) through an Open Competition grant (406.20.CW.002) awarded to Henkjan Honing. 
+\anonymized{}
+
+% TODO 
+% Bas Cornelissen was supported by the Dutch Research Council (NWO) through an Open Competition grant (406.20.CW.002) awarded to Henkjan Honing. 
 
 
 \section*{Supplemental online material}
@@ -608,7 +622,8 @@ Bas Cornelissen was supported by the Dutch Research Council (NWO) through an Ope
 
 Supplemental online material for this article can be accessed at \url{doi-provided-by-publisher}.
 The Online Supplement provides a more formal exposition of the ideas in this paper, as well as additional figures and analysis supporting the findings reported in this paper.
-All data and code used in this paper have been deposited at \url{https://doi.org/10.5281/zenodo.17753529}. 
+All data and code used in this paper have been deposited at \url{doi.org/10.5281/zenodo.anonimized}.
+% doi.org/10.5281/zenodo.17753529. 
 
 % TODO is my phrasing correct?
 % Use this exact phrasing.
